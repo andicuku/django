@@ -1,0 +1,93 @@
+{%extends 'base.html'%}
+<title>
+	{% block title %}
+	  users
+	{% endblock title %}
+  </title>
+  <body>
+{%block content%}
+<h1 class="mt-4">Users <code><a href="/users"><code>/Index</code></a><a href="/users/create"><code class="text-danger">/Create</code></a> </code></h1>
+<br/>
+<form action="" method="get">
+    <div class="row">
+<div class="col-md-4">
+    <input type="search" name="search" class="form-control" id="q" placeholder="Search...">
+ </div>
+   <div class="col-md-2">
+       <button type="submit" id="search" class="btn btn-success">Search <b><span class="fas fa-search"></span></b></button>
+   </div>
+</div>
+</form>
+<br/> <br/> <br/>
+<h3>Users <code>/Datatable</code></h3>
+<br/>
+<table id="users" class="table table-bordered nowrap table-sm" cellspacing="0" style="width:100%">
+    {% csrf_token %}
+	<thead class="thead-dark">
+		<tr>
+			<th class="text-center">#</th>
+			<th class="text-center">Username</th>
+			<th class="text-center">Date Joined</th>
+			<th class="text-center">Email</th>
+			<th class="text-center">Is Active?</th>
+			<th class="text-center">Is Staff?</th>
+			<th class="text-center">Is Admin?</th>
+			<th class="text-center">Action</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for user in object_list %}
+		<tr id="{{lead.id}}">
+			<td class="text-center">{{user.id}}</td>
+			<td class="text-center"><a href="{% url 'users:user-password' user.pk %}">{{user.username}}</a></td>
+			<td class="text-center">{{user.date_joined|date:'Y-m-d'}}</td>
+			<td class="text-center">{{user.email}}</td>
+			<td class="text-center">{{user.is_active}}</td>
+			<td class="text-center">{{user.is_staff}}</td>
+			<td class="text-center">{{user.is_superuser}}</td>
+			<td class="text-center">
+				<a href="{% url 'users:user-update' user.pk %}"><i class="fas fa-edit text-primary"></i></a>
+				<a href="{% url 'users:user-delete' user.pk %}" onclick="return confirm('Are you sure to delete this User?');"><i class="fas fa-trash-alt text-danger"></i></a>
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% if is_paginated %}
+<nav aria-label="Page navigation example">
+<ul class="pagination justify-content-center pagination-circle">
+ {% if page_obj.has_previous %}
+  <li class="page-item"><a class="page-link text-secondary" href="?page={{ page_obj.previous_page_number }}"><i class="fas fa-arrow-left text-dark"></i> Previous</a></li>
+{% else %}
+  <li class="page-item"><a><span class="page-link text-secondary">&laquo;</span></a></li>
+{% endif %}
+{% for i in paginator.page_range %}
+  {% if page_obj.number == i %}
+  <li class="active page-item text-secondary"><span class="page-link">{{ i }}</span></li>
+  {% else %}
+  <li class="page-item"><a class="page-link text-dark" href="?page={{ i }}">{{ i }}</a></li>
+  {% endif %}
+{% endfor %}
+{% if page_obj.has_next %}
+  <li class="page-item"><a class="page-link text-secondary" href="?page={{ page_obj.next_page_number }}">Next <i class="fas fa-arrow-right text-dark"></i></a></li>
+{% else %}
+  <li class="page-item"><span class="page-link text-secondary">&raquo;</span></li>
+{% endif %}
+</ul>
+</nav>
+{% endif %}
+<br><br>
+<script>
+    $(document).ready(function(){
+        var table = $('#users').DataTable({
+            "paging":true,
+            "aLengthMenu":[[10,25,50,100],[10,25,50,100]],
+            "iDisplayLength":25,
+            "searching":false,
+            "responsive":true,
+            "order": []
+        });
+	});
+</script>
+{%endblock content%}
+</body>

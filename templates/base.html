@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/datatables.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+        
+        <title>
+          {% block title %}
+          
+          {% endblock title %} @crm
+          </title>
+        <script src="{% static 'js/jquery.min.js' %}"></script>
+       </head>
+    <body>
+        <div class="d-flex" id="wrapper">
+            <!-- Sidebar-->
+            <div class="bg-light border-right" id="sidebar-wrapper">
+                <div class="sidebar-heading text-info">@crm <i class="fas fa-book"></i></div>
+                <div class="list-group list-group-flush">
+                    <a class="list-group-item list-group-item-action bg-light" href="/leads">Leads <i class="far fa-address-card"></i></a>
+                    <a class="list-group-item list-group-item-action bg-light" href="/categories">Categories <i class="fas fa-chart-pie"></i></a>
+                    <a class="list-group-item list-group-item-action bg-light" href="/sources">Sources <i class="fab fa-osi"></i></a>
+                    <a class="list-group-item list-group-item-action bg-light" href="/users">Users <i class="fas fa-users"></i></a>
+                    <a class="list-group-item list-group-item-action bg-light" href="/leads/status">Status <i class="fas fa-thermometer"></i></a>
+                    <a class="list-group-item list-group-item-action bg-light" href="/leads/searching">Advanced Search <i class="fas fa-search"></i></a>
+
+
+                </div>
+            </div>
+            <!-- Page Content-->
+            <div id="page-content-wrapper">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                  <div class="dr-flex">
+                    <i class="fas fa-toggle-on fa-3x text-info" id="menu-toggle"></i>
+                  </div>
+                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                      <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                        {% if request.user.is_authenticated %}
+
+                          <li class="nav-item active">
+                              <a class="nav-link" href="{% url 'logout' %}">
+                                  Logout
+                                  <span class="sr-only">(current)</span>
+                              </a>
+                          </li>
+                          {% endif %}
+                      </ul>
+                  </div>
+              </nav>
+                <div class="container-fluid">
+                  {% block content %}
+                    
+                  {% endblock content %}
+                </div>
+            </div>
+        </div>
+        <script src="{% static 'js/static.js' %}"></script>
+<script>
+$('.dr-flex').click(function(){
+    $(this).find('i').toggleClass('fas fa-toggle-on fa-3x text-info fas fa-toggle-off fa-3x text-info');
+});
+        </script>
+                                  <script src="{% static 'js/datatables.min.js' %}"></script>
+                                  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+                                  <script src="{% static 'js/popper.min.js' %}"></script>
+                                  <script src="https://kit.fontawesome.com/bc307cd8d0.js" crossorigin="anonymous"></script>
+    </body>
+</html>

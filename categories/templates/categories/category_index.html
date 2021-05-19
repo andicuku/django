@@ -1,0 +1,74 @@
+{%extends 'base.html'%}
+<title>
+	{% block title %}
+	  leads
+	{% endblock title %}
+  </title>
+  <body>
+{%block content%}
+<h1 class="mt-4">Categories <code><a href="/categories"><code>/Index</code></a><a href="/categories/create"><code class="text-danger">/Create</code></a> </code></h1>
+<h6 class="text-muted">Categories are used as lead statuses. They are an index of how is the discussion going with the client.</h6>
+<br/>
+<br/> <br/> <br/>
+<h3>Categories <code>/Datatable</code></h3>
+<br/>
+<table id="categories" class="table table-bordered nowrap table-sm" cellspacing="0" style="width:100%">
+    {% csrf_token %}
+	<thead class="thead-dark">
+		<tr>
+			<th class="text-center">#</th>
+			<th class="text-center">Category</th>
+			<th class="text-center">Action</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for category in object_list %}
+		<tr id="{{lead.id}}">
+			<td class="text-center">{{category.id}}</td>
+			<td class="text-center"><a href="{% url 'categories:category-update' category.pk %}">{{category}}</a></td>
+			<td class="text-center">
+				<a href="{% url 'categories:category-update' category.pk %}"><i class="fas fa-edit text-primary"></i></a>
+				<a href="{% url 'categories:category-delete' category.pk %}" onclick="return confirm('Are you sure to delete this Category?');"><i class="fas fa-trash-alt text-danger"></i></a>
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% if is_paginated %}
+<nav aria-label="Page navigation example">
+<ul class="pagination justify-content-center pagination-circle">
+ {% if page_obj.has_previous %}
+  <li class="page-item"><a class="page-link text-secondary" href="?page={{ page_obj.previous_page_number }}"><i class="fas fa-arrow-left text-dark"></i> Previous</a></li>
+{% else %}
+  <li class="page-item"><a><span class="page-link text-secondary">&laquo;</span></a></li>
+{% endif %}
+{% for i in paginator.page_range %}
+  {% if page_obj.number == i %}
+  <li class="active page-item text-secondary"><span class="page-link">{{ i }}</span></li>
+  {% else %}
+  <li class="page-item"><a class="page-link text-dark" href="?page={{ i }}">{{ i }}</a></li>
+  {% endif %}
+{% endfor %}
+{% if page_obj.has_next %}
+  <li class="page-item"><a class="page-link text-secondary" href="?page={{ page_obj.next_page_number }}">Next <i class="fas fa-arrow-right text-dark"></i></a></li>
+{% else %}
+  <li class="page-item"><span class="page-link text-secondary">&raquo;</span></li>
+{% endif %}
+</ul>
+</nav>
+{% endif %}
+<br><br>
+<script>
+    $(document).ready(function(){
+        var table = $('#categories').DataTable({
+            "paging":true,
+            "aLengthMenu":[[10,25,50,100],[10,25,50,100]],
+            "iDisplayLength":25,
+            "searching":false,
+            "responsive":true,
+            "order": []
+        });
+	});
+</script>
+{%endblock content%}
+</body>

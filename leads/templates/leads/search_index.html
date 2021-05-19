@@ -1,0 +1,303 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+{% load tailwind_filters %}
+
+{{ filter.form.media }}
+{% block title%}
+advanced search
+{% endblock title%}
+
+{% block content %}
+
+<form method="get">
+    <div class="well">
+        <br>
+      <h4 style="margin-top: 0">Advanced lead filtering.</h4>
+      <h6 class="text-secondary">
+        Here you can complete some more complex dynamic search queries for administrative related purposes.
+      </h6>
+      <br/>
+      <div class="row">
+        <div class="form-group col-sm-4 col-md-3">
+          {{ filter.form.user.label_tag }}
+          {% render_field filter.form.user class="form-control" %}
+        </div>
+        <div class="form-group col-sm-4 col-md-3">
+          {{ filter.form.source.label_tag }}
+          {% render_field filter.form.source class="form-control" %}
+        </div>
+        <div class="form-group col-sm-4 col-md-3">
+          {{ filter.form.category.label_tag }}
+          {% render_field filter.form.category class="form-control" %}
+        </div>
+        <div class="form-group col-sm-4 col-md-3">
+            {{ filter.form.created_at__date.label_tag }}
+            {% render_field filter.form.created_at__date class="form-control" %}
+          </div>
+          <div class="form-group col-sm-4 col-md-3">
+            {{ filter.form.created_at__date__gt.label_tag }}
+            {% render_field filter.form.created_at__date__gt class="form-control" %}
+          </div>
+          <div class="form-group col-sm-4 col-md-3">
+            {{ filter.form.created_at__date__lt.label_tag }}
+            {% render_field filter.form.created_at__date__lt class="form-control" %}
+          </div>
+          <div class="form-group col-sm-4 col-md-3">
+            {{ filter.form.name__icontains.label_tag }}
+            {% render_field filter.form.name__icontains class="form-control" %}
+          </div>
+          <div class="form-group col-sm-4 col-md-3">
+            {{ filter.form.phone__icontains.label_tag }}
+            {% render_field filter.form.phone__icontains class="form-control" %}
+          </div>
+      </div>
+      <div class="container-fluid">
+      <button type="submit" class="btn btn-primary btn col-md-12">
+        <span class="fas fa-search"></span> Search
+      </button>
+     </div>
+    </div>
+  </form>
+<br><br>
+<table id="misen_search" class="table table-bordered nowrap table-sm" cellspacing="0" style="width:100%">
+  {% csrf_token %}
+<thead class="thead-dark">
+  <tr>
+    <th class="text-center">#</th>
+    <th class="text-center"><input type="checkbox" name="" id="site_select_all"></th>
+    <th class="text-center">Name</th>
+    <th class="text-center">Phone</th>
+    <th class="text-center">Data Creation</th>
+    <th class="text-center">Source</th>
+    <th class="text-center">Category</th>
+    <th class="text-center">User</th>
+    <th class="text-center">Action</th>
+  </tr>
+</thead>
+<tbody>
+  {% for lead in object_list %}
+  <tr id="{{lead.id}}">
+    <td class="text-center">{{lead.id}}</td>
+    <td class="text-center"><input type="checkbox" name="selected" id="delete_lead" value="{{lead.id}}"></td>
+    <td class="text-center"><a href="{% url 'leads:lead-update' lead.pk %}">{{lead.name}}</a></td>
+    <td class="text-center">{{lead.phone}}</td>
+    <td class="text-center">{{lead.created_at|date:'Y-m-d'}}</td>
+    <td class="text-center">{{lead.source}}</td>
+    <td class="text-center">{{lead.category}}</td>
+    <td class="text-center">{{lead.user}}</td>
+    <td class="text-center">
+      <a href="{% url 'leads:lead-update' lead.pk %}"><i class="fas fa-edit text-primary"></i></a>
+      <a href="{% url 'leads:lead-delete' lead.pk %}" onclick="return confirm('Are you sure to delete this Lead?');"><i class="fas fa-trash-alt text-danger"></i></a>
+    </td>
+  </tr>
+  {% endfor %}
+</tbody>
+</table>
+{% if is_paginated %}
+<nav aria-label="Page navigation example">
+<ul class="pagination justify-content-center pagination-circle">
+{% if page_obj.has_previous %}
+<li class="page-item"><a class="page-link text-secondary" href="?page={{ page_obj.previous_page_number }}"><i class="fas fa-arrow-left text-dark"></i> Previous</a></li>
+{% else %}
+<li class="page-item"><a><span class="page-link text-secondary">&laquo;</span></a></li>
+{% endif %}
+{% for i in paginator.page_range %}
+{% if page_obj.number == i %}
+<li class="active page-item text-secondary"><span class="page-link">{{ i }}</span></li>
+{% else %}
+<li class="page-item"><a class="page-link text-dark" href="?page={{ i }}">{{ i }}</a></li>
+{% endif %}
+{% endfor %}
+{% if page_obj.has_next %}
+<li class="page-item"><a class="page-link text-secondary" href="?page={{ page_obj.next_page_number }}">Next <i class="fas fa-arrow-right text-dark"></i></a></li>
+{% else %}
+<li class="page-item"><span class="page-link text-secondary">&raquo;</span></li>
+{% endif %}
+</ul>
+</nav>
+{% endif %}
+<br><br>
+<div class="container">
+<div class="row">
+  <div class="col-md-4">
+    <button type="submit" id="delete_all_search" class="btn btn-danger"><span class="fas fa-trash-alt"></span> Delete</button>
+  </div>
+  <div class="col-md-4">
+    <button type="submit" id="assign" class="btn btn-success"><span class="fas fa-share-alt"></span> Assign</button>
+  </div>
+  <div class="col-md-4">
+    <button type="submit" id="change" class="btn btn-warning"><span class="fas fa-exchange-alt"></span> Change Status</button>
+  </div>
+</div>
+</div>
+<br><br>
+
+<!--<script>
+/*  function get_Selected_id(){
+      var searchIDs = $('input[name=sel]:checked').map(function(){
+          return $(this).val();
+      }).get();
+      return searchIDs;
+  }
+
+  $(document).ready(function(){
+      var table = $('#misen').DataTable({
+          "paging":true,
+          "aLengthMenu":[[10,25,50,100],[10,25,50,100]],
+          "iDisplayLength":50,
+          "searching":false,
+          "responsive":true,
+          "order": []
+      });
+
+      // Function for handling select_all on click...
+      $('#site_select_all').on('click', function(){
+          var rows = table.rows({'search':'applied'}).nodes();
+          $('input[type="checkbox"]',rows).prop('checked',this.checked);
+      });
+
+      $('#delete_all').click(function(event){
+          event.preventDefault();
+          if(confirm("Are you sure to delete selected?")){
+              var id = get_Selected_id();
+              var csrf = $('input[name=csrfmiddlewaretoken').val();
+              if(id!=''){
+                  $.ajax({
+                      url: "delete/",
+                      method: "POST",
+                      data: {
+                          id,
+                          csrfmiddlewaretoken:csrf,
+                      },
+                      success:function(response){
+                          for(var i=0; i<id.length; i++){
+                              $('tr#'+id[i]+'').css('background-color', '#ccc');
+                              $('tr#'+id[i]+'').fadeOut('slow');
+                          }
+                          window.location.href = ".";
+                      }
+                  })
+              }
+              else{
+                  return confirm("No leads selected");
+              }
+          }
+          return false;
+      });
+  });*/
+</script>-->
+<script>
+    function get_Selected_id() {
+          var searchIDs = $("input[name=selected]:checked").map(function(){
+              return $(this).val();
+          }).get();
+          return searchIDs;
+      }
+
+      $(document).ready(function() {
+          var table = $('#misen_search').DataTable({
+              "paging": true,
+              "aLengthMenu": [[10, 25, 50, 100,], [10, 25, 50, 100,]],
+              "iDisplayLength": 50,
+              "searching": false,
+              "responsive": true,
+              "order": []
+          });
+          // Handle click on "Select all" control
+          $('#site_select_all').on('click', function(){
+              // Check/uncheck all checkboxes in the table
+              var rows = table.rows({ 'search': 'applied' }).nodes();
+              $('input[type="checkbox"]', rows).prop('checked', this.checked);
+          });
+
+      $("#delete_all_search").click(function(event){
+              event.preventDefault();
+              if (confirm("Are you sure to Delete Selected?")) {
+                  var id = get_Selected_id();
+                  var csrf = $('input[name=csrfmiddlewaretoken').val();
+                  if (id!='') {
+                      /*$('#delete_leads_ids').eq(0).val(leads_ids);
+                      $('#delete_multiple_form').submit();*/
+                      $.ajax({
+                          url: "{%url 'leads:delete-multiple' %}",
+                          method: "POST",
+                          data: {
+                              id,
+                              csrfmiddlewaretoken:csrf,
+                          },
+                          success:function(response){
+                              for(var i=0; i<id.length; i++){
+                                  $('tr#'+id[i]+'').css('background-color', '#ccc');
+                                  $('tr#'+id[i]+'').fadeOut('slow');
+                              }
+                              window.location.href = ".";
+                          }
+                      })
+
+                  } else {
+                      return confirm("No leads selected");
+                  }
+              }
+              return false;
+          });
+
+         /* $("#delete_all").click(function(event){
+              event.preventDefault();
+              if (confirm("Are you sure to Delete Selected?")) {
+                  var leads_ids=get_Selected_id();
+                  if (leads_ids!='') {
+                      $('#delete_leads_ids').eq(0).val(leads_ids);
+                      $('#delete_multiple_form').submit();
+
+                  } else {
+                      return confirm("No leads selected");
+                  }
+              }
+              return false;
+          });
+          $("#delete_commento").click(function(event){
+              event.preventDefault();
+              if (confirm("Are you sure to empty the comments for these leads?")) {
+                  var leads_ids=get_Selected_id();
+                  if (leads_ids!='') {
+                      $('#delete_comments_ids').eq(0).val(leads_ids);
+                      $('#delete_comments_form').submit();
+
+                  } else {
+                      return confirm("No leads selected");
+                  }
+              }
+              return false;
+          });
+          
+                      flatpickr("#flatpickr");
+          
+          $("#assign_button").click(function(event){
+              event.preventDefault();
+                  var leads_ids=get_Selected_id();
+                  if (leads_ids!='') {
+                      $('#assign_leads_ids').eq(0).val(leads_ids);
+                      $('#assign_users').submit();
+                  } else {
+                      return confirm("No leads selected");
+                  }
+              return false;
+          });
+
+          $("#change_button").click(function(event){
+              event.preventDefault();
+              var leads_ids=get_Selected_id();
+              if (leads_ids!='') {
+                  $('#change_leads_ids').eq(0).val(leads_ids);
+                  $('#change_status').submit();
+              } else {
+                  return confirm("No leads selected");
+              }
+              return false;
+          });*/
+
+      });
+</script>
+{% endblock %}
