@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 
 app_name = "leads"
 urlpatterns =[
-    path('', login_required(LeadIndexView.as_view())),
+    path('', login_required(LeadIndexView.as_view()), name='lead-index'),
     path('<int:pk>/update/', login_required(LeadUpdateView.as_view()), name='lead-update'),
     url(r'^create/$', login_required(LeadCreateView.as_view()), name='lead-create'),
     path('<int:pk>/delete/', login_required(lead_delete), name='lead-delete'),

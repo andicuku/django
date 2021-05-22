@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'crispy_tailwind',
     'bootstrap4',
     'widget_tweaks',
-    'bootstrap_datepicker_plus',
     'django_filters',
 ]
 

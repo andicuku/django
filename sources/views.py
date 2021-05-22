@@ -19,7 +19,7 @@ class SourceUpdateView(generic.UpdateView):
    form_class = SourceModelForm
     
    def get_success_url(self):
-     return reverse("sources:Source-index")
+     return reverse("sources:source-index")
 
 
 class SourceIndexView(generic.ListView):
