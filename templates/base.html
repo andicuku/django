@@ -1,77 +1,176 @@
 {% load static %}
-<!DOCTYPE html>
+{% load tz %}
+{% get_current_timezone as TIME_ZONE %}
+<!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        
-        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-        <link rel="stylesheet" href="{% static 'css/datatables.min.css' %}">
-        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <head>
+  	<title>{% block title %}{% endblock title %}@crm</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        
-        <title>
-          {% block title %}
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+		
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href=" {% static 'css/style.css' %}">
+
+  </head>
+  <script src="{% static 'js/jquery.min.js' %}"></script>
+  <body>
+		
+		<div class="container-fluid d-md-flex align-items-stretch">
+      <!-- Page Content  -->
+      <div id="content" class="p-4 p-md-6 pt-6">
+        {% if request.user.is_authenticated %}
+        <h2 class="mb-4">Welcome <b class="text-info">{{request.user.first_name}} {{request.user.last_name}}</b></h2>
+        {% endif %}
+        <h2 class="text-success"><h3 class="text-dark">
+          <b>{% now "d-m-Y" %}</b>
+          <p>{{TIME_ZONE}}</p>
+        </h3></h2>
+        <script>
+          // Unix time value from server: seconds since 1970-01-01T00:00:00Z
+          // Below is a number for 2014-07-02T06:48:24.000Z, set to actual server value
+          var serverTime = 	Math.floor(new Date().getTime()/1000.0);
           
-          {% endblock title %} @crm
-          </title>
-        <script src="{% static 'js/jquery.min.js' %}"></script>
-       </head>
-    <body>
-        <div class="d-flex" id="wrapper">
-            <!-- Sidebar-->
-            <div class="bg-light border-right" id="sidebar-wrapper">
-                <div class="sidebar-heading text-info">@crm <i class="fas fa-book"></i></div>
-                <div class="list-group list-group-flush">
-                    <a class="list-group-item list-group-item-action bg-light" href="/leads">Leads <i class="far fa-address-card"></i></a>
-                    <a class="list-group-item list-group-item-action bg-light" href="/categories">Categories <i class="fas fa-chart-pie"></i></a>
-                    <a class="list-group-item list-group-item-action bg-light" href="/sources">Sources <i class="fab fa-osi"></i></a>
-                    <a class="list-group-item list-group-item-action bg-light" href="/users">Users <i class="fas fa-users"></i></a>
-                    <a class="list-group-item list-group-item-action bg-light" href="/leads/status">Status <i class="fas fa-thermometer"></i></a>
-                    <a class="list-group-item list-group-item-action bg-light" href="/leads/searching">Advanced Search <i class="fas fa-search"></i></a>
+          var doClock = (function () {
+          
+            // Calc offset from server time
+            // Javascript time value is milliseconds since above epoch
+            var serverOffset = serverTime - (new Date() / 1000 | 0);
+          
+            // Helper
+            function z(n){return (n<10?'0':'') + n}
+          
+            return function() {
+          
+              // Create a new Date object each time so
+              // it doesn't matter if a second or more is skipped
+              var now = new Date();
+          
+              // Adjust for server offset
+              now.setSeconds(now.getSeconds() + serverOffset);
+          
+              // write clock to document, values are local, not UTC
+              document.getElementById('clock').innerHTML = z(now.getHours())   + ':' +
+                                                           z(now.getMinutes()) + ':' +
+                                                           z(now.getSeconds());
+              // Run again just after next full second
+              setTimeout(doClock, 1020 - now.getMilliseconds());
+            };    
+          }());
+          
+          window.onload = doClock;
+          
+          </script>
+          <p>This is your personal dashboard. If you are staff or admin you will have full access to this platform features.
+          Use the sidebar in your right part of the screen to access more than datatables.
+          <b class="text-dark">Enjoy!</b>
+        </p>
+        <p>
+          This is the root directory for this platform. <a href="{% url 'leads:lead-index' %}" class="btn btn-sm btn-default">leads/</a>
+          {% if request.user.is_superuser %}
+          <a href="{% url 'users:user-index' %}" class="btn btn-sm btn-default">users/</a>
+          {% endif %}
+          {% if request.user.is_staff %}
+          <a href="{% url 'sources:source-index' %}" class="btn btn-sm btn-default">sources/</a>
+          <a href="{% url 'categories:category-index' %}" class="btn btn-sm btn-default">categories/</a>
+          {% endif %}
+        </p>
+        <p>
+          {% block content %}
+          
+          {% endblock content %}
+        </p>
+      </div>
+      <script src="{% static 'js/datatables.min.js' %}"></script>
+      <script src="{% static 'js/bootstrap.min.js' %}"></script>
+      <script src="{% static 'js/moment.min.js' %}"></script>
+      <script src="{% static 'js/popper.min.js' %}"></script>
+      <script src="{% static 'js/main.js' %}"></script>
+      <script src="https://kit.fontawesome.com/bc307cd8d0.js" crossorigin="anonymous"></script>
 
-
-                </div>
+      <nav id="sidebar">
+				<div class="p-4 pt-5">
+					<h5>Options</h5>
+	        <ul class="list-unstyled components mb-5">
+	          <li>
+	            <a href="#pageSubmenu1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Leads</a>
+	            <ul class="collapse list-unstyled" id="pageSubmenu1">
+                {% if request.user.is_staff %}
+                <li><a href="{% url 'leads:lead-create' %} "><span class="fa fa-chevron-right mr-2"></span> Create</a></li>
+                {% endif %}
+                <li><a href="{% url 'leads:status' %} "><span class="fa fa-chevron-right mr-2"></span> Status Filtering</a></li>
+                <li><a href="{% url 'leads:advanced-search' %} "><span class="fa fa-chevron-right mr-2"></span> Search Advanced</a></li>
+	            </ul>
+	          </li>
+            {% if request.user.is_superuser %}
+	          <li>
+	            <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Users</a>
+	            <ul class="collapse list-unstyled" id="pageSubmenu2">
+                <li><a href="{% url 'users:user-create' %}"><span class="fa fa-chevron-right mr-2"></span> Create</a></li>
+                <li><a href="#"><span class="fa fa-chevron-right mr-2"></span> Update</a></li>
+                <li><a href="#"><span class="fa fa-chevron-right mr-2"></span> Edit Properties</a></li>
+	            </ul>
+	          </li>
+            {% endif %}
+            {% if request.user.is_staff %}
+	          <li>
+	            <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Categories/Sources</a>
+	            <ul class="collapse list-unstyled" id="pageSubmenu3">
+                <li><a href="{% url 'categories:category-create' %}"><span class="fa fa-chevron-right mr-2"></span> Create Category</a></li>
+                <li><a href="{% url 'sources:source-create' %}"><span class="fa fa-chevron-right mr-2"></span> Create Source</a></li>
+	            </ul>
+	          </li>
+            {% endif %}
+            {% if request.user.is_authenticated %}
+	          <li>
+	            <a href="#pageSubmenu4" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Authentication</a>
+	            <ul class="collapse list-unstyled" id="pageSubmenu4">
+                <li><a href="{% url 'logout' %}" class="text-danger"><span class="fa fa-chevron-right mr-2"></span> Logout</a></li>
+	            </ul>
+	          </li>
+            {% endif %}
+            <li>
+	        </ul>
+          <div class="mb-5">
+	        	<h5>Clock <i class="far fa-clock"></i></h5>
+            <button class="btn btn-lg btn-block btn-info" id="clock"></button>
+					</div>
+          <div class="mb-5">
+						<h5>Quick Widgets</h5>
+            <div class="tagcloud">
+              <a href="{% url 'leads:lead-index' %}" class="tag-cloud-link text-info">leads</a>
+              {% if request.user.is_staff %}
+              <a href="{% url 'users:user-index' %}" class="tag-cloud-link text-primary">users</a>
+              <a href="{% url 'categories:category-index' %}" class="tag-cloud-link text-success">categories</a>
+              <a href="{% url 'sources:source-index' %}" class="tag-cloud-link text-secondary">sources</a>
+              <a href="{% url 'users:user-create' %}" class="tag-cloud-link">user/create</a>
+              <a href="{% url 'sources:source-create' %}" class="tag-cloud-link">source/create</a>
+              <a href="{% url 'categories:category-create' %}" class="tag-cloud-link">category/create</a>
+              <a href="{% url 'leads:lead-create' %}" class="tag-cloud-link">lead/create</a>
+              {% endif %}
             </div>
-            <!-- Page Content-->
-            <div id="page-content-wrapper">
-                <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-                  <div class="dr-flex">
-                    <i class="fas fa-toggle-on fa-3x text-info" id="menu-toggle"></i>
-                  </div>
-                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                      <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                        {% if request.user.is_authenticated %}
+					</div>
+          <div class="mb-5">
+	        	<h5>Search</h5>
+						<form action="{% url 'leads:search' %} " class="subscribe-form" method="GET">
+	            <div class="form-group d-flex">
+	            	<div class="icon"><span class="icon-paper-plane"></span></div>
+	              <input type="search" class="form-control col-md-11 ml-1" id="q" name="q" placeholder="Enter search...">
+                <button type="submit" id="search" class="btn btn-sm btn-info ml-1"><i class="fas fa-search"></i></button>
+	            </div>
+	          </form>
+					</div>
+          {% if request.user.is_authenticated %}
+          <div class="mb-5">
+            <h5>Status Filter</h5>
+            {% block myblock %}
 
-                          <li class="nav-item active">
-                              <a class="nav-link" href="{% url 'logout' %}">
-                                  Logout
-                                  <span class="sr-only">(current)</span>
-                              </a>
-                          </li>
-                          {% endif %}
-                      </ul>
-                  </div>
-              </nav>
-                <div class="container-fluid">
-                  {% block content %}
-                    
-                  {% endblock content %}
-                </div>
-            </div>
-        </div>
-        <script src="{% static 'js/static.js' %}"></script>
-<script>
-$('.dr-flex').click(function(){
-    $(this).find('i').toggleClass('fas fa-toggle-on fa-3x text-info fas fa-toggle-off fa-3x text-info');
-});
-        </script>
-                                  <script src="{% static 'js/datatables.min.js' %}"></script>
-                                  <script src="{% static 'js/bootstrap.min.js' %}"></script>
-                                  <script src="{% static 'js/popper.min.js' %}"></script>
-                                  <script src="https://kit.fontawesome.com/bc307cd8d0.js" crossorigin="anonymous"></script>
-    </body>
+            {% endblock myblock %}
+          </div>
+          {% endif %}
+	      </div>
+    	</nav>
+		</div>
+  </body>
 </html>

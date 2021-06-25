@@ -6,21 +6,7 @@
   </title>
   <body>
 {%block content%}
-<h1 class="mt-4">Users <code><a href="/users"><code>/Index</code></a><a href="/users/create"><code class="text-danger">/Create</code></a> </code></h1>
-<br/>
-<form action="" method="get">
-    <div class="row">
-<div class="col-md-4">
-    <input type="search" name="search" class="form-control" id="q" placeholder="Search...">
- </div>
-   <div class="col-md-2">
-       <button type="submit" id="search" class="btn btn-success">Search <b><span class="fas fa-search"></span></b></button>
-   </div>
-</div>
-</form>
-<br/> <br/> <br/>
-<h3>Users <code>/Datatable</code></h3>
-<br/>
+<div class="jumbotron">
 <table id="users" class="table table-bordered nowrap table-sm" cellspacing="0" style="width:100%">
     {% csrf_token %}
 	<thead class="thead-dark">
@@ -53,6 +39,7 @@
 		{% endfor %}
 	</tbody>
 </table>
+</div>
 {% if is_paginated %}
 <nav aria-label="Page navigation example">
 <ul class="pagination justify-content-center pagination-circle">
@@ -83,7 +70,7 @@
             "paging":true,
             "aLengthMenu":[[10,25,50,100],[10,25,50,100]],
             "iDisplayLength":25,
-            "searching":false,
+            "searching":true,
             "responsive":true,
             "order": []
         });

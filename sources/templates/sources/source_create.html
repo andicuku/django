@@ -5,19 +5,20 @@
   create source
 {% endblock title %}
 {% block content %}
-  <br><br><br>
   <div class="container">
   <div class="row justify-content-center">
     <div class="col-lg-8 col-md-10 col-sm-12">
       <div class="card">
         <div class="card-body">
           <h3 class="card-title">Create a new source now.</h3>
+          <div class="jumbotron">
           <form method="post" novalidate>
             {% csrf_token %}
             {{form|crispy}}
         </div>
+      </div>
         <div class="card-footer text-muted text-center">
-            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+            <button type="submit" class="btn btn-success btn-block">Submit</button>
        </form>
        <h1><a href="/sources"><button class="btn btn-danger btn col-md-12"><span class="fa fa-undo" aria-hidden="true"></span> Back</button></a></h1>
        </div>

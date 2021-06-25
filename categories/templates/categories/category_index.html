@@ -6,12 +6,6 @@
   </title>
   <body>
 {%block content%}
-<h1 class="mt-4">Categories <code><a href="/categories"><code>/Index</code></a><a href="/categories/create"><code class="text-danger">/Create</code></a> </code></h1>
-<h6 class="text-muted">Categories are used as lead statuses. They are an index of how is the discussion going with the client.</h6>
-<br/>
-<br/> <br/> <br/>
-<h3>Categories <code>/Datatable</code></h3>
-<br/>
 <table id="categories" class="table table-bordered nowrap table-sm" cellspacing="0" style="width:100%">
     {% csrf_token %}
 	<thead class="thead-dark">

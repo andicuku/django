@@ -3,6 +3,25 @@ from django.shortcuts import reverse, redirect
 from django.views import generic
 from .models import User
 from .forms import SignUpForm
+from django.core.exceptions import PermissionDenied
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+
+
+class sudo(LoginRequiredMixin, UserPassesTestMixin):
+    def test_func(self):
+        if not self.request.user.is_superuser:
+         raise PermissionDenied("Access forbidden 403. Are you root?")
+        else:
+            return self.request.user.is_superuser
+
+
+class staff(LoginRequiredMixin, UserPassesTestMixin):
+    def test_func(self):
+        if not self.request.user.is_staff:
+         raise PermissionDenied("Restricted action. Staff members only.")
+        else:
+             return self.request.user.is_staff
+
 
 class SignupView(generic.CreateView):
     model = User
@@ -12,7 +31,7 @@ class SignupView(generic.CreateView):
     def get_success_url(self):
        return reverse("login")
 
-class UserCreateAsAdminView(generic.CreateView):
+class UserCreateAsAdminView(sudo, generic.CreateView):
     model = User
     template_name = "users/user_create.html"
     form_class = SignUpForm
@@ -20,7 +39,7 @@ class UserCreateAsAdminView(generic.CreateView):
     def get_success_url(self):
        return reverse("users:user-index")
 
-class UserPasswordView(generic.UpdateView):
+class UserPasswordView(sudo, generic.UpdateView):
     model = User
     template_name = "users/user_password.html"
     form_class = SignUpForm
@@ -28,7 +47,7 @@ class UserPasswordView(generic.UpdateView):
     def get_success_url(self):
      return reverse("users:user-index")
 
-class UserUpdateView(generic.UpdateView):
+class UserUpdateView(sudo, generic.UpdateView):
    model = User
    template_name = "users/user_update.html"
    form_class = UserChangeForm
@@ -37,14 +56,16 @@ class UserUpdateView(generic.UpdateView):
      return reverse("users:user-index")
 
 
-class UserIndexView(generic.ListView):
+class UserIndexView(sudo, generic.ListView):
    queryset = User.objects.order_by('id')
    paginate_by = 100
    template_name = "users/user_index.html"
 
-
-def user_delete(pk):
+def user_delete(request, pk):
     user = User.objects.get(id=pk)
-    user.delete()
+    if request.user.is_superuser:
+     user.delete()
+    else:
+        raise PermissionDenied("Access forbidden 403. Are you root?")
     return redirect("/users")
 

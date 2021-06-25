@@ -1,11 +1,14 @@
 from django.shortcuts import render, reverse, redirect
 from django.views import generic
-from .forms import LeadModelForm
-from .models import Lead
+from .forms import LeadModelForm, LeadModifyForm
+from .models import Lead, User
 from django.db.models import Q
 from .filters import LeadFilter
 from django_filters.views import FilterView
-
+from users.views import staff, sudo
+from django.core.exceptions import PermissionDenied
+from .tables import LeadTable
+from django_tables2 import SingleTableView
 
 
 
@@ -29,20 +32,26 @@ class LeadUpdateView(generic.UpdateView):
      return reverse("leads:lead-index")
 
 
-class LeadIndexView(generic.ListView):
-   queryset = Lead.objects.order_by('-updated_at')
-   paginate_by = 100
-   template_name = "leads/lead_index.html"
+class LeadIndexView(generic.TemplateView):
+  template_name = 'leads/lead_index.html'
 
+  def get(self, request, *args, **kwargs):
+         data = Lead.objects.order_by('-updated_at')
+         context = self.get_context_data(**kwargs)
+         context['table'] = data
+         return self.render_to_response(context)
 
 def lead_delete(request, pk):
     lead = Lead.objects.get(id=pk)
-    lead.delete()
+    if request.user.is_superuser:
+     lead.delete()
+    else:
+        raise PermissionDenied("Access forbidden 403. Are you root?")
     return redirect("/leads")
 
 
 
-class LeadView(generic.View):
+class LeadView(sudo, generic.View):
     def get(self, request):
         allleads = Lead.objects.all()
         context = {
@@ -93,5 +102,29 @@ class LeadAdvancedSearch(FilterView):
 class LeadAdvancedStatus(FilterView):
     filterset_class = LeadFilter
     paginate_by = 100
-    template_name = 'leads/status_index.html'
+    template_name = 'leads/lead_index.html'
+
+
+class ModifyView(staff, generic.View):
+
+    def get(self, request, **kwargs):
+        allleads = Lead.objects.all()
+        form = LeadModifyForm
+
+        context = {
+            'leads': allleads,
+            'form': form
+        }
+        return  render(request, "leads/lead_index.html", context)
+
+    def post(self, request, *args, **kwargs):
+      if request.method=="POST":
+        lead_ids=request.POST.getlist('id[]')
+        form = LeadModifyForm
+        for id in lead_ids:
+         lead = Lead.objects.get(pk=id)
+         lead.user = form.user
+         lead.category = form.category
+         lead.save()
+        return redirect("/leads/modify")
 

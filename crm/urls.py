@@ -19,6 +19,17 @@ from django.conf.urls import url
 from users.views import SignupView
 from django.contrib.auth import views as auth_views
 
+# Other URL confs up here
+
+# Do not import anything for the handler404,
+# or whatnot from the django.conf.urls
+# Just list them below
+
+handler404 = 'crm.views.not_found'
+handler500 = 'crm.views.server_error'
+handler403 = 'crm.views.permission_denied'
+handler400 = 'crm.views.bad_request'
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),

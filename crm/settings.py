@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'widget_tweaks',
     'django_filters',
+    'django_tables2',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
@@ -124,7 +125,7 @@ LOGOUT_REDIRECT_URL = 'login'
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Tirane'
 
 USE_I18N = True
 
@@ -140,7 +141,7 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
-    '/home/misen/PycharmProjects/crm/static',
+    '/home/misen/Downloads/projects/django-crm/static',
 ]
 
 # Default primary key field type
