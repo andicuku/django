@@ -22,10 +22,15 @@ class SourceUpdateView(generic.UpdateView):
      return reverse("sources:source-index")
 
 
-class SourceIndexView(generic.ListView):
-   queryset = Source.objects.order_by('id')
-   paginate_by = 25
-   template_name = "sources/source_index.html"
+class MixViewSource(generic.View):
+    def get(self, request):
+        allsources = Source.objects.order_by('id')
+        form = SourceModelForm
+        context = {
+            'sources': allsources,
+            'form': form
+        }
+        return  render(request, "sources/source_index.html", context)
 
 
 def source_delete(request, pk):

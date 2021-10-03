@@ -7,8 +7,6 @@ from .filters import LeadFilter
 from django_filters.views import FilterView
 from users.views import staff, sudo
 from django.core.exceptions import PermissionDenied
-from .tables import LeadTable
-from django_tables2 import SingleTableView
 
 
 
@@ -32,14 +30,10 @@ class LeadUpdateView(generic.UpdateView):
      return reverse("leads:lead-index")
 
 
-class LeadIndexView(generic.TemplateView):
-  template_name = 'leads/lead_index.html'
-
-  def get(self, request, *args, **kwargs):
-         data = Lead.objects.order_by('-updated_at')
-         context = self.get_context_data(**kwargs)
-         context['table'] = data
-         return self.render_to_response(context)
+class LeadIndexView(generic.ListView):
+    model = Lead
+    template_name = 'leads/lead_index.html'
+    paginate_by = 100
 
 def lead_delete(request, pk):
     lead = Lead.objects.get(id=pk)

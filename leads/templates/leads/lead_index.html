@@ -1,6 +1,5 @@
 {%extends 'base.html'%}
 {% load widget_tweaks %}
-{% load render_table from django_tables2 %}
 <title>
 	{% block title %}
 	  leads
@@ -43,7 +42,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		{% for lead in table %}
+		{% for lead in object_list %}
 		<tr id="{{lead.id}}">
 			<td class="text-center">{{lead.id}}</td>
             {% if request.user.is_staff %}

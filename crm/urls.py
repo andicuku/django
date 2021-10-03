@@ -25,12 +25,6 @@ from django.contrib.auth import views as auth_views
 # or whatnot from the django.conf.urls
 # Just list them below
 
-handler404 = 'crm.views.not_found'
-handler500 = 'crm.views.server_error'
-handler403 = 'crm.views.permission_denied'
-handler400 = 'crm.views.bad_request'
-
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',auth_views.LoginView.as_view(template_name='auth/login.html'), name='login'),

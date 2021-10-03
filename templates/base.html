@@ -1,176 +1,202 @@
 {% load static %}
-{% load tz %}
-{% get_current_timezone as TIME_ZONE %}
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-  	<title>{% block title %}{% endblock title %}@crm</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}
+    {% endblock title %}@crm</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/datatables.min.css' %}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
 
-    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
-		
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-		<link rel="stylesheet" href=" {% static 'css/style.css' %}">
+*{
+    font-family: 'Open Sans', sans-serif;
+}
 
-  </head>
-  <script src="{% static 'js/jquery.min.js' %}"></script>
-  <body>
-		
-		<div class="container-fluid d-md-flex align-items-stretch">
-      <!-- Page Content  -->
-      <div id="content" class="p-4 p-md-6 pt-6">
-        {% if request.user.is_authenticated %}
-        <h2 class="mb-4">Welcome <b class="text-info">{{request.user.first_name}} {{request.user.last_name}}</b></h2>
-        {% endif %}
-        <h2 class="text-success"><h3 class="text-dark">
-          <b>{% now "d-m-Y" %}</b>
-          <p>{{TIME_ZONE}}</p>
-        </h3></h2>
-        <script>
-          // Unix time value from server: seconds since 1970-01-01T00:00:00Z
-          // Below is a number for 2014-07-02T06:48:24.000Z, set to actual server value
-          var serverTime = 	Math.floor(new Date().getTime()/1000.0);
-          
-          var doClock = (function () {
-          
-            // Calc offset from server time
-            // Javascript time value is milliseconds since above epoch
-            var serverOffset = serverTime - (new Date() / 1000 | 0);
-          
-            // Helper
-            function z(n){return (n<10?'0':'') + n}
-          
-            return function() {
-          
-              // Create a new Date object each time so
-              // it doesn't matter if a second or more is skipped
-              var now = new Date();
-          
-              // Adjust for server offset
-              now.setSeconds(now.getSeconds() + serverOffset);
-          
-              // write clock to document, values are local, not UTC
-              document.getElementById('clock').innerHTML = z(now.getHours())   + ':' +
-                                                           z(now.getMinutes()) + ':' +
-                                                           z(now.getSeconds());
-              // Run again just after next full second
-              setTimeout(doClock, 1020 - now.getMilliseconds());
-            };    
-          }());
-          
-          window.onload = doClock;
-          
-          </script>
-          <p>This is your personal dashboard. If you are staff or admin you will have full access to this platform features.
-          Use the sidebar in your right part of the screen to access more than datatables.
-          <b class="text-dark">Enjoy!</b>
-        </p>
-        <p>
-          This is the root directory for this platform. <a href="{% url 'leads:lead-index' %}" class="btn btn-sm btn-default">leads/</a>
-          {% if request.user.is_superuser %}
-          <a href="{% url 'users:user-index' %}" class="btn btn-sm btn-default">users/</a>
-          {% endif %}
-          {% if request.user.is_staff %}
-          <a href="{% url 'sources:source-index' %}" class="btn btn-sm btn-default">sources/</a>
-          <a href="{% url 'categories:category-index' %}" class="btn btn-sm btn-default">categories/</a>
-          {% endif %}
-        </p>
-        <p>
-          {% block content %}
-          
-          {% endblock content %}
-        </p>
-      </div>
-      <script src="{% static 'js/datatables.min.js' %}"></script>
-      <script src="{% static 'js/bootstrap.min.js' %}"></script>
-      <script src="{% static 'js/moment.min.js' %}"></script>
-      <script src="{% static 'js/popper.min.js' %}"></script>
-      <script src="{% static 'js/main.js' %}"></script>
-      <script src="https://kit.fontawesome.com/bc307cd8d0.js" crossorigin="anonymous"></script>
+body{
+    margin: 0;
+}
+.navbarMine{
+    width: 100%;
+    height: 70px;
+    background-color:#1c1d24;
+    position:sticky;
+    top: 0;
+}
 
-      <nav id="sidebar">
-				<div class="p-4 pt-5">
-					<h5>Options</h5>
-	        <ul class="list-unstyled components mb-5">
-	          <li>
-	            <a href="#pageSubmenu1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Leads</a>
-	            <ul class="collapse list-unstyled" id="pageSubmenu1">
-                {% if request.user.is_staff %}
-                <li><a href="{% url 'leads:lead-create' %} "><span class="fa fa-chevron-right mr-2"></span> Create</a></li>
-                {% endif %}
-                <li><a href="{% url 'leads:status' %} "><span class="fa fa-chevron-right mr-2"></span> Status Filtering</a></li>
-                <li><a href="{% url 'leads:advanced-search' %} "><span class="fa fa-chevron-right mr-2"></span> Search Advanced</a></li>
-	            </ul>
-	          </li>
-            {% if request.user.is_superuser %}
-	          <li>
-	            <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Users</a>
-	            <ul class="collapse list-unstyled" id="pageSubmenu2">
-                <li><a href="{% url 'users:user-create' %}"><span class="fa fa-chevron-right mr-2"></span> Create</a></li>
-                <li><a href="#"><span class="fa fa-chevron-right mr-2"></span> Update</a></li>
-                <li><a href="#"><span class="fa fa-chevron-right mr-2"></span> Edit Properties</a></li>
-	            </ul>
-	          </li>
-            {% endif %}
-            {% if request.user.is_staff %}
-	          <li>
-	            <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Categories/Sources</a>
-	            <ul class="collapse list-unstyled" id="pageSubmenu3">
-                <li><a href="{% url 'categories:category-create' %}"><span class="fa fa-chevron-right mr-2"></span> Create Category</a></li>
-                <li><a href="{% url 'sources:source-create' %}"><span class="fa fa-chevron-right mr-2"></span> Create Source</a></li>
-	            </ul>
-	          </li>
-            {% endif %}
-            {% if request.user.is_authenticated %}
-	          <li>
-	            <a href="#pageSubmenu4" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Authentication</a>
-	            <ul class="collapse list-unstyled" id="pageSubmenu4">
-                <li><a href="{% url 'logout' %}" class="text-danger"><span class="fa fa-chevron-right mr-2"></span> Logout</a></li>
-	            </ul>
-	          </li>
-            {% endif %}
-            <li>
-	        </ul>
-          <div class="mb-5">
-	        	<h5>Clock <i class="far fa-clock"></i></h5>
-            <button class="btn btn-lg btn-block btn-info" id="clock"></button>
-					</div>
-          <div class="mb-5">
-						<h5>Quick Widgets</h5>
-            <div class="tagcloud">
-              <a href="{% url 'leads:lead-index' %}" class="tag-cloud-link text-info">leads</a>
-              {% if request.user.is_staff %}
-              <a href="{% url 'users:user-index' %}" class="tag-cloud-link text-primary">users</a>
-              <a href="{% url 'categories:category-index' %}" class="tag-cloud-link text-success">categories</a>
-              <a href="{% url 'sources:source-index' %}" class="tag-cloud-link text-secondary">sources</a>
-              <a href="{% url 'users:user-create' %}" class="tag-cloud-link">user/create</a>
-              <a href="{% url 'sources:source-create' %}" class="tag-cloud-link">source/create</a>
-              <a href="{% url 'categories:category-create' %}" class="tag-cloud-link">category/create</a>
-              <a href="{% url 'leads:lead-create' %}" class="tag-cloud-link">lead/create</a>
-              {% endif %}
+.navWrapper{
+    height: 100%;
+    padding: 0px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo{
+    font-weight: bold;
+    font-size: 30px;
+    color:white;
+    cursor: pointer;
+}
+.navRight{
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+.navIcons{
+    margin: 10px;
+    cursor: pointer;
+    color: white;
+}
+.searchbox{
+    margin: 5px;   
+}
+
+a{
+    font-size: 18px;
+    color: rgb(131, 129, 129);
+    margin: 5px;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 10px;
+}
+a:hover{
+    background-color:#dee0e0;
+    text-decoration:none;
+    color: black;
+}
+li.active{
+    border-bottom: 4px solid rgb(255, 103, 103);
+}
+.container-fluid{
+    width: 80%;
+}
+</style>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+
+<body>
+    <div class="navbarMine">
+        <div class="navWrapper">
+            <div class="navLeft">
+                <span class="logo">gitCRM</span>
             </div>
-					</div>
-          <div class="mb-5">
-	        	<h5>Search</h5>
-						<form action="{% url 'leads:search' %} " class="subscribe-form" method="GET">
-	            <div class="form-group d-flex">
-	            	<div class="icon"><span class="icon-paper-plane"></span></div>
-	              <input type="search" class="form-control col-md-11 ml-1" id="q" name="q" placeholder="Enter search...">
-                <button type="submit" id="search" class="btn btn-sm btn-info ml-1"><i class="fas fa-search"></i></button>
-	            </div>
-	          </form>
-					</div>
-          {% if request.user.is_authenticated %}
-          <div class="mb-5">
-            <h5>Status Filter</h5>
-            {% block myblock %}
+            <div class="searchbox">
+                <form action="{% url 'leads:search' %}" method="GET">
+                    <div class="input-group-append">
+                    <input type="search" name="q" id="q" class="form-control col-12 mr-2" placeholder="Search the entire database here...">
+                    <button type="submit" class="btn btn-outline-light">Search</button>
+                </div>
+                </form>
+            </div>
+            <div class="navRight">
+                <div class="navIcons">
+                    <span class="material-icons">account_circle</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-4 position-sticky top-0 d-none d-md-block color-bg-primary width-full border-bottom color-border-secondary" style="z-index:3;">
+        <ul data-view-component="true" class="UnderlineNav-body list-style-none">
+            {% with url_name=request.resolver_match.url_name  %}
+            
+            <li data-view-component="true" class="d-inline-flex {% if url_name == 'lead-index' %}active{% endif %}">
+        <a href="{% url 'leads:lead-index' %}" aria-current="page">
+          
+                        <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-code UnderlineNav-octicon d-none d-sm-inline">
+          <path fill-rule="evenodd" d="M4.72 3.22a.75.75 0 011.06 1.06L2.06 8l3.72 3.72a.75.75 0 11-1.06 1.06L.47 8.53a.75.75 0 010-1.06l4.25-4.25zm6.56 0a.75.75 0 10-1.06 1.06L13.94 8l-3.72 3.72a.75.75 0 101.06 1.06l4.25-4.25a.75.75 0 000-1.06l-4.25-4.25z"></path>
+      </svg>
+                <span data-content="Code">Leads</span>
+                  <span title="Not available" data-view-component="true" class="Counter"></span>
+      
+          
+      </a></li>
+            <li data-view-component="true" class="d-inline-flex {% if url_name == 'user-index' %}active{% endif %}">
+        <a href="{% url 'users:user-index' %}" class="opensource">
+          
+                        <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-issue-opened UnderlineNav-octicon d-none d-sm-inline">
+          <path d="M8 9.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path><path fill-rule="evenodd" d="M8 0a8 8 0 100 16A8 8 0 008 0zM1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0z"></path>
+      </svg>
+                <span data-content="Issues">Users</span>
+                  <span title="0" hidden="hidden" data-view-component="true" class="Counter">0</span>
+      
+          
+      </a></li>
+            <li data-view-component="true" class="d-inline-flex {% if url_name == 'lead-create' %}active{% endif %}">
+        <a href="{% url 'leads:lead-create' %}" class="opensource">
+          
+                        <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-git-pull-request UnderlineNav-octicon d-none d-sm-inline">
+          <path fill-rule="evenodd" d="M7.177 3.073L9.573.677A.25.25 0 0110 .854v4.792a.25.25 0 01-.427.177L7.177 3.427a.25.25 0 010-.354zM3.75 2.5a.75.75 0 100 1.5.75.75 0 000-1.5zm-2.25.75a2.25 2.25 0 113 2.122v5.256a2.251 2.251 0 11-1.5 0V5.372A2.25 2.25 0 011.5 3.25zM11 2.5h-1V4h1a1 1 0 011 1v5.628a2.251 2.251 0 101.5 0V5A2.5 2.5 0 0011 2.5zm1 10.25a.75.75 0 111.5 0 .75.75 0 01-1.5 0zM3.75 12a.75.75 0 100 1.5.75.75 0 000-1.5z"></path>
+      </svg>
+                <span data-content="Pull requests">Create Lead</span>
+                  <span title="0" hidden="hidden" data-view-component="true" class="Counter">0</span>
+      
+          
+      </a></li>
+            <li data-view-component="true" class="d-inline-flex {% if url_name == 'user-create' %}active{% endif %}">
+        <a href="{% url 'users:user-create' %}" class="opensource">
+          
+                        <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-play UnderlineNav-octicon d-none d-sm-inline">
+          <path fill-rule="evenodd" d="M1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0zM8 0a8 8 0 100 16A8 8 0 008 0zM6.379 5.227A.25.25 0 006 5.442v5.117a.25.25 0 00.379.214l4.264-2.559a.25.25 0 000-.428L6.379 5.227z"></path>
+      </svg>
+                <span data-content="Actions">User Create</span>
+                  <span title="Not available" data-view-component="true" class="Counter"></span>
+      
+          
+      </a></li>
+            <li data-view-component="true" class="d-inline-flex {% if url_name == 'source-index' %}active{% endif %}">
+        <a href="{% url 'sources:source-index' %}" class="opensource">
+          
+                        <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-project UnderlineNav-octicon d-none d-sm-inline">
+          <path fill-rule="evenodd" d="M1.75 0A1.75 1.75 0 000 1.75v12.5C0 15.216.784 16 1.75 16h12.5A1.75 1.75 0 0016 14.25V1.75A1.75 1.75 0 0014.25 0H1.75zM1.5 1.75a.25.25 0 01.25-.25h12.5a.25.25 0 01.25.25v12.5a.25.25 0 01-.25.25H1.75a.25.25 0 01-.25-.25V1.75zM11.75 3a.75.75 0 00-.75.75v7.5a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75zm-8.25.75a.75.75 0 011.5 0v5.5a.75.75 0 01-1.5 0v-5.5zM8 3a.75.75 0 00-.75.75v3.5a.75.75 0 001.5 0v-3.5A.75.75 0 008 3z"></path>
+      </svg>
+                <span data-content="Projects">Sources</span>
+                  <span title="0" hidden="hidden" data-view-component="true" class="Counter">0</span>
+      
+          
+      </a></li>
+            <li data-view-component="true" class="d-inline-flex {% if url_name == 'category-index' %}active{% endif %}">
+        <a href="{% url 'categories:category-index' %}" class="opensource">
 
-            {% endblock myblock %}
-          </div>
-          {% endif %}
-	      </div>
-    	</nav>
-		</div>
-  </body>
+        <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-book UnderlineNav-octicon d-none d-sm-inline">
+          <path fill-rule="evenodd" d="M0 1.75A.75.75 0 01.75 1h4.253c1.227 0 2.317.59 3 1.501A3.744 3.744 0 0111.006 1h4.245a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75h-4.507a2.25 2.25 0 00-1.591.659l-.622.621a.75.75 0 01-1.06 0l-.622-.621A2.25 2.25 0 005.258 13H.75a.75.75 0 01-.75-.75V1.75zm8.755 3a2.25 2.25 0 012.25-2.25H14.5v9h-3.757c-.71 0-1.4.201-1.992.572l.004-7.322zm-1.504 7.324l.004-5.073-.002-2.253A2.25 2.25 0 005.003 2.5H1.5v9h3.757a3.75 3.75 0 011.994.574z"></path>
+      </svg>
+                <span data-content="Wiki">Categories</span>
+                  <span title="Not available" data-view-component="true" class="Counter"></span>
+          
+      </a></li>
+            <li data-view-component="true" class="d-inline-flex {% if url_name == 'source-create' %}active{% endif %}">
+        <a href="" class="opensource">
+          
+                        <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-shield UnderlineNav-octicon d-none d-sm-inline">
+          <path fill-rule="evenodd" d="M7.467.133a1.75 1.75 0 011.066 0l5.25 1.68A1.75 1.75 0 0115 3.48V7c0 1.566-.32 3.182-1.303 4.682-.983 1.498-2.585 2.813-5.032 3.855a1.7 1.7 0 01-1.33 0c-2.447-1.042-4.049-2.357-5.032-3.855C1.32 10.182 1 8.566 1 7V3.48a1.75 1.75 0 011.217-1.667l5.25-1.68zm.61 1.429a.25.25 0 00-.153 0l-5.25 1.68a.25.25 0 00-.174.238V7c0 1.358.275 2.666 1.057 3.86.784 1.194 2.121 2.34 4.366 3.297a.2.2 0 00.154 0c2.245-.956 3.582-2.104 4.366-3.298C13.225 9.666 13.5 8.36 13.5 7V3.48a.25.25 0 00-.174-.237l-5.25-1.68zM9 10.5a1 1 0 11-2 0 1 1 0 012 0zm-.25-5.75a.75.75 0 10-1.5 0v3a.75.75 0 001.5 0v-3z"></path>
+      </svg>
+                <span data-content="Security">Advanced Filter</span>
+          
+      </a></li>
+            <li data-view-component="true" class="d-inline-flex">
+        <a href="" class="opensource">
+        <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-graph UnderlineNav-octicon d-none d-sm-inline">
+          <path fill-rule="evenodd" d="M1.5 1.75a.75.75 0 00-1.5 0v12.5c0 .414.336.75.75.75h14.5a.75.75 0 000-1.5H1.5V1.75zm14.28 2.53a.75.75 0 00-1.06-1.06L10 7.94 7.53 5.47a.75.75 0 00-1.06 0L3.22 8.72a.75.75 0 001.06 1.06L7 7.06l2.47 2.47a.75.75 0 001.06 0l5.25-5.25z"></path>
+      </svg>
+                <span data-content="Insights">Lead Import</span>        
+      </a>
+    </li>
+    {% endwith %}
+      </ul>
+    </div>
+    <div class="container-fluid">
+        {% block content %}
+          
+        {% endblock content %}
+    </div>
+    <script src="{% static 'js/datatables.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+</body>
 </html>

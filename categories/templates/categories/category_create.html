@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load tailwind_filters %}
 {{form.media}}
 {% block title %}
   create category
@@ -14,7 +13,7 @@
           <div class="jumbotron">
           <form method="post" novalidate>
             {% csrf_token %}
-            {{form|crispy}}
+            {{form}}
         </div>
       </div>
         <div class="card-footer text-muted text-center">

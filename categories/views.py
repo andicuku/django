@@ -12,6 +12,17 @@ class CategoryCreateView(generic.CreateView):
     def get_success_url(self):
        return reverse("categories:category-index")
 
+class MixViewCategory(generic.View):
+    def get(self, request):
+        allcategories = Category.objects.order_by('id')
+        form = CategoryModelForm
+        context = {
+            'categories': allcategories,
+            'form': form
+        }
+        return  render(request, "categories/category_index.html", context)
+
+
 
 class CategoryUpdateView(generic.UpdateView):
    model = Category
@@ -20,12 +31,6 @@ class CategoryUpdateView(generic.UpdateView):
     
    def get_success_url(self):
      return reverse("categories:category-index")
-
-
-class CategoryIndexView(generic.ListView):
-   queryset = Category.objects.order_by('id')
-   paginate_by = 25
-   template_name = "categories/category_index.html"
 
 
 def category_delete(request, pk):

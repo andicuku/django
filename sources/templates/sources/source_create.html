@@ -1,11 +1,16 @@
 {% extends "base.html" %}
-{% load tailwind_filters %}
 {{form.media}}
 {% block title %}
   create source
 {% endblock title %}
 {% block content %}
-  <div class="container">
+<style>
+  .holder{
+    background-color: #fff;
+    border-radius: 10px;
+  }
+</style>
+  <div class="holder">
   <div class="row justify-content-center">
     <div class="col-lg-8 col-md-10 col-sm-12">
       <div class="card">
@@ -14,7 +19,7 @@
           <div class="jumbotron">
           <form method="post" novalidate>
             {% csrf_token %}
-            {{form|crispy}}
+            {{form}}
         </div>
       </div>
         <div class="card-footer text-muted text-center">
