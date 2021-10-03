@@ -93,12 +93,6 @@ class LeadAdvancedSearch(FilterView):
     paginate_by = 100
     template_name = 'leads/search_index.html'
 
-class LeadAdvancedStatus(FilterView):
-    filterset_class = LeadFilter
-    paginate_by = 100
-    template_name = 'leads/lead_index.html'
-
-
 class ModifyView(staff, generic.View):
 
     def get(self, request, **kwargs):

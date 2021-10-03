@@ -1,6 +1,6 @@
 from django.urls import path
 from django.conf.urls import url
-from .views import LeadCreateView, LeadUpdateView, ModifyView, lead_delete, LeadView, LeadIndexView, SearchResultsView, LeadAdvancedSearch, LeadAdvancedStatus
+from .views import LeadCreateView, LeadUpdateView, ModifyView, lead_delete, LeadView, LeadIndexView, SearchResultsView, LeadAdvancedSearch
 from django.contrib.auth.decorators import login_required
 
 
@@ -14,7 +14,6 @@ urlpatterns =[
     url(r'^delete/$', login_required(LeadView.as_view()), name='delete-multiple'),
     url(r'^search/$', login_required(SearchResultsView.as_view()), name='search'),
     url(r'^searching/$', login_required(LeadAdvancedSearch.as_view()), name='advanced-search'),
-    url(r'^status/$', login_required(LeadAdvancedStatus.as_view()), name='status'),
     url(r'^modify/$', login_required(ModifyView.as_view()), name='modify')
 
 

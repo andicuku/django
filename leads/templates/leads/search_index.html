@@ -10,13 +10,13 @@ advanced search
 {% endblock title%}
 
 {% block content %}
-<div class="container">
-  <div class="jumbotron">
+<br><br>
 <form method="get">
     <div class="well">
       <h4 style="margin-top: 0">Advanced lead filtering.</h4>
       <h6 class="text-secondary">
         Here you can complete some more complex dynamic search queries for administrative related purposes.
+        <br><br>
       </h6>
       <div class="row">
         <div class="form-group col-sm-4 col-md-3">
@@ -52,14 +52,11 @@ advanced search
             {% render_field filter.form.phone__icontains class="form-control" %}
           </div>
       </div>
-      <div class="container-fluid">
-      <button type="submit" class="btn btn-success btn col-md-12">
+      <button type="submit" class="btn btn-outline-primary btn col-md-12">
         <span class="fas fa-filter"></span> Filter
       </button>
-     </div>
-    </div>
-  </div>
   </form>
+  <br><br>
 <table id="misen_search" class="table table-bordered nowrap table-sm" cellspacing="0" style="width:100%">
   {% csrf_token %}
 <thead class="thead-dark">
@@ -121,17 +118,16 @@ advanced search
 <div class="container">
 <div class="row">
   <div class="col-md-4">
-    <button type="submit" id="delete_all_search" class="btn btn-danger"><span class="fas fa-trash-alt"></span> Delete</button>
+    <button type="submit" id="delete_all_search" class="btn btn-outline-danger"><span class="fas fa-trash-alt"></span> Delete</button>
   </div>
   <div class="col-md-4">
-    <button type="submit" id="assign" class="btn btn-success"><span class="fas fa-share-alt"></span> Assign</button>
+    <button type="submit" id="assign" class="btn btn-outline-success"><span class="fas fa-share-alt"></span> Assign</button>
   </div>
   <div class="col-md-4">
-    <button type="submit" id="change" class="btn btn-warning"><span class="fas fa-exchange-alt"></span> Change Status</button>
+    <button type="submit" id="change" class="btn btn-outline-warning"><span class="fas fa-exchange-alt"></span> Change Status</button>
   </div>
-</div>
-</div>
-</div>
+  </div>
+  </div>
 <br><br>
 
 <!--<script>

@@ -77,6 +77,24 @@ li.active{
 .container-fluid{
     width: 80%;
 }
+.misen{
+    list-style-type:none;
+    margin: 8px;
+    padding: 8px;
+}
+.macok{
+    margin: auto;
+    background-color: white;
+    height: 24px;
+    width: 24px;
+    margin-left: 64px;
+    margin-right: 64px;
+    display: flex;
+}
+.container-custom{
+    width: 65%;
+    margin: auto;
+}
 </style>
     <script src="{% static 'js/jquery.min.js' %}"></script>
 
@@ -170,10 +188,10 @@ li.active{
                   <span title="Not available" data-view-component="true" class="Counter"></span>
           
       </a></li>
-            <li data-view-component="true" class="d-inline-flex {% if url_name == 'source-create' %}active{% endif %}">
-        <a href="" class="opensource">
+            <li data-view-component="true" class="d-inline-flex {% if url_name == 'advanced-search' %}active{% endif %}">
+        <a href="{% url 'leads:advanced-search' %}" class="opensource">
           
-                        <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-shield UnderlineNav-octicon d-none d-sm-inline">
+        <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-shield UnderlineNav-octicon d-none d-sm-inline">
           <path fill-rule="evenodd" d="M7.467.133a1.75 1.75 0 011.066 0l5.25 1.68A1.75 1.75 0 0115 3.48V7c0 1.566-.32 3.182-1.303 4.682-.983 1.498-2.585 2.813-5.032 3.855a1.7 1.7 0 01-1.33 0c-2.447-1.042-4.049-2.357-5.032-3.855C1.32 10.182 1 8.566 1 7V3.48a1.75 1.75 0 011.217-1.667l5.25-1.68zm.61 1.429a.25.25 0 00-.153 0l-5.25 1.68a.25.25 0 00-.174.238V7c0 1.358.275 2.666 1.057 3.86.784 1.194 2.121 2.34 4.366 3.297a.2.2 0 00.154 0c2.245-.956 3.582-2.104 4.366-3.298C13.225 9.666 13.5 8.36 13.5 7V3.48a.25.25 0 00-.174-.237l-5.25-1.68zM9 10.5a1 1 0 11-2 0 1 1 0 012 0zm-.25-5.75a.75.75 0 10-1.5 0v3a.75.75 0 001.5 0v-3z"></path>
       </svg>
                 <span data-content="Security">Advanced Filter</span>
@@ -195,6 +213,36 @@ li.active{
           
         {% endblock content %}
     </div>
+    <br><br>
+
+    <div class="footer container-custom width-full p-responsive" role="contentinfo">
+        <div class="position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between pt-6 pb-2 mt-6 f6 color-text-secondary border-top color-border-secondary ">
+          <ul class="misen list-style-none d-flex flex-wrap flex-lg-justify-between mb-2 mb-lg-0">
+            <li class="mr-3 mr-lg-0">© 2022 GitHub, Inc.</li>
+              <li class="mr-3 mr-lg-0"><a href="#" data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to terms&quot;,&quot;label&quot;:&quot;text:terms&quot;,&quot;originating_url&quot;:&quot;https://github.com/misen19/djangocrm&quot;,&quot;user_id&quot;:63194411}}" data-hydro-click-hmac="83a4eb5f0e76b4517a7cf4f0a0656227bd7fe25b3d3700047ea40851b70a12a3">Terms</a></li>
+              <li class="mr-3 mr-lg-0"><a data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to security&quot;,&quot;label&quot;:&quot;text:security&quot;,&quot;originating_url&quot;:&quot;https://github.com/misen19/djangocrm&quot;,&quot;user_id&quot;:63194411}}" data-hydro-click-hmac="67988823373f1184d12c5873a4ab2c68f119518bfa538157ec5a0699194066c3" href="#">Security</a></li>
+              <li class="mr-3 mr-lg-0"><a href="#" data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to status&quot;,&quot;label&quot;:&quot;text:status&quot;,&quot;originating_url&quot;:&quot;https://github.com/misen19/djangocrm&quot;,&quot;user_id&quot;:63194411}}" data-hydro-click-hmac="8aede00b2d94b4320030f9e456f0bb70457ba2fb9ad3229bd3787b7430a2819f">Status</a></li>
+              <li><a data-ga-click="Footer, go to help, text:Docs" href="#">Docs</a></li>
+          </ul>
+      
+          <a aria-label="Homepage" title="GitHub/misen19" class="macok footer-octicon d-none d-lg-block mx-lg-4" href="https://github.com/misen19">
+            <svg aria-hidden="true" height="24" viewBox="0 0 16 16" version="1.1" width="24" data-view-component="true" class="octicon octicon-mark-github">
+          <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+      </svg>
+      </a>
+          <ul class="misen list-style-none d-flex flex-wrap flex-lg-justify-between mb-2 mb-lg-0">
+            <li><a href="#">Contact Email</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">Training</a></li>
+            <li><a href="#">API</a></li>
+            <li><a href="#">Made in Django. Ridiculously fast, Reassuringly secure and Exceedingly scalable.</a></li>
+          </ul>
+        </div>
+        <div class="d-flex flex-justify-center pb-6">
+          <span class="f6 color-text-tertiary"></span>
+        </div>
+      </div>
+
     <script src="{% static 'js/datatables.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/popper.min.js' %}"></script>

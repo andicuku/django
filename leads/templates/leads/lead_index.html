@@ -22,6 +22,7 @@
     {% endblock myblock %}
 
 {%block content%}
+<br><br>
 <table id="misen" class="table table-bordered table-hover nowrap table-sm" cellspacing="0" style="width:100%">
     {% csrf_token %}
 	<thead class="thead-dark">
@@ -92,13 +93,13 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-4">
-			<button type="submit" id="delete_all" class="btn btn-danger"><span class="fas fa-trash-alt"></span> Delete</button>
+			<button type="submit" id="delete_all" class="btn btn-outline-danger"><span class="fas fa-trash-alt"></span> Delete</button>
 		</div>
 		<div class="col-md-4">
-			<button type="submit" id="assign" class="btn btn-success"><span class="fas fa-share-alt"></span> Assign</button>
+			<button type="submit" id="assign" class="btn btn-outline-success"><span class="fas fa-share-alt"></span> Assign</button>
 		</div>
 		<div class="col-md-4">
-			<button type="submit" id="change" class="btn btn-warning"><span class="fas fa-exchange-alt"></span> Change Status</button>
+			<button type="submit" id="change" class="btn btn-outline-primary"><span class="fas fa-exchange-alt"></span> Change </button>
 		</div>
 	</div>
 </div>
