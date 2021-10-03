@@ -1,5 +1,5 @@
 {%extends 'base.html'%}
-{% load widget_tweaks %}
+{% load tailwind_filters %}
 <title>
 	{% block title %}
 	  categories
@@ -7,27 +7,23 @@
   </title>
   <body>
 {%block content%}
-<div class="spoon">
-		<div class="host">
-			<h1>
-				Sources Workspace.
-			</h1>
-			<h3>
-				See the listed sources or create a new one by the form in the right.
-			</h3>
-		</div>
-		<div class="peer">
-			<h2>Create a new source.</h2>
-			<form action="{% url 'sources:source-create' %}" method="post">
-				{% csrf_token %}
-				<div class="form-group">
-					{% render_field form.source class="form-control" placeholder="Source" style="border-radius: 20px;" %}
-				</div>
-				<button type="submit" class="btn btn-dark col-12">Create</button>
-			</form>
-		</div>
-</div>
-<div class="content">
+<br><br>
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10 col-sm-12">
+      <div class="redbull text-muted text-center">
+        <h3 class="card-title">Quick Create a new Source. </h3>
+        </div>
+          <form action="{% url 'sources:source-create' %}" method="post" novalidate>
+            {% csrf_token %}
+            {{form|crispy}}
+        </div>
+      </div>
+      <br>
+      <div class="text-muted text-center">
+        <button type="submit" class="btn btn-primary col-lg-8"><span class="fa fa-hdd" aria-hidden="true"></span> Create</button>
+      </form>
+      </div>
+	  <br><br>
 <table id="sources" class="table table-bordered nowrap table-sm" cellspacing="0" style="width:100%">
     {% csrf_token %}
 	<thead class="thead-dark">
@@ -38,7 +34,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		{% for source in object_list %}
+		{% for source in sources %}
 		<tr id="{{lead.id}}">
 			<td class="text-center">{{source.id}}</td>
 			<td class="text-center"><a href="{% url 'sources:source-update' source.pk %}">{{source}}</a></td>
@@ -86,6 +82,5 @@
         });
 	});
 </script>
-</div>
 {%endblock content%}
 </body>

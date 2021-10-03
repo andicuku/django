@@ -2,28 +2,25 @@
 {% load tailwind_filters %}
 {{form.media}}
 {% block title %}
-update {{category}}
+  update {{category}}
 {% endblock title %}
 {% block content %}
-  <div class="container">
+<br>
   <div class="row justify-content-center">
     <div class="col-lg-8 col-md-10 col-sm-12">
-      <div class="card">
-        <div class="card-body">
-          <h3 class="card-title">Update <b class="text-info">{{category}}</b></h3>
-          <div class="jumbotron">
+      <div class="redbull text-muted text-center">
+        <h3 class="card-title">Update category {{category}}. </h3>
+        </div>
           <form method="post" novalidate>
             {% csrf_token %}
             {{form|crispy}}
         </div>
-        </div>
-        <div class="card-footer text-muted text-center">
-            <button type="submit" class="btn btn-success btn-block">Submit</button>
-       </form>
-       <h1><a href="/categories"><button class="btn btn-danger btn col-md-12"><span class="fa fa-undo" aria-hidden="true"></span> Back</button></a></h1>
-       </div>
       </div>
-    </div>
-  </div>
+      <br>
+      <div class="text-muted text-center">
+        <button type="submit" class="btn btn-primary col-lg-8"><span class="fa fa-hdd" aria-hidden="true"></span> Update</button>
+      </form>
+      <h1 style="margin-top: 10px;"><a href="/categories"class="btn btn-danger col-lg-8"><span class="fa fa-undo" aria-hidden="true"></span> Back</a></h1>
+      </div>
 </div>
 {% endblock content %}

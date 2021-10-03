@@ -6,7 +6,7 @@
   </title>
   <body>
 {%block content%}
-<div class="jumbotron">
+<br><br><br>
 <table id="users" class="table table-bordered nowrap table-sm" cellspacing="0" style="width:100%">
     {% csrf_token %}
 	<thead class="thead-dark">
@@ -39,7 +39,6 @@
 		{% endfor %}
 	</tbody>
 </table>
-</div>
 {% if is_paginated %}
 <nav aria-label="Page navigation example">
 <ul class="pagination justify-content-center pagination-circle">

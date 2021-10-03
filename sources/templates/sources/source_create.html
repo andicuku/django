@@ -1,34 +1,26 @@
 {% extends "base.html" %}
+{% load tailwind_filters %}
 {{form.media}}
 {% block title %}
   create source
 {% endblock title %}
 {% block content %}
-<style>
-  .holder{
-    background-color: #fff;
-    border-radius: 10px;
-  }
-</style>
-  <div class="holder">
+<br>
   <div class="row justify-content-center">
     <div class="col-lg-8 col-md-10 col-sm-12">
-      <div class="card">
-        <div class="card-body">
-          <h3 class="card-title">Create a new source now.</h3>
-          <div class="jumbotron">
+      <div class="redbull text-muted text-center">
+        <h3 class="card-title">Create a new source. </h3>
+        </div>
           <form method="post" novalidate>
             {% csrf_token %}
-            {{form}}
+            {{form|crispy}}
         </div>
       </div>
-        <div class="card-footer text-muted text-center">
-            <button type="submit" class="btn btn-success btn-block">Submit</button>
-       </form>
-       <h1><a href="/sources"><button class="btn btn-danger btn col-md-12"><span class="fa fa-undo" aria-hidden="true"></span> Back</button></a></h1>
-       </div>
+      <br>
+      <div class="text-muted text-center">
+        <button type="submit" class="btn btn-primary col-lg-8"><span class="fa fa-hdd" aria-hidden="true"></span> Create</button>
+      </form>
+      <h1 style="margin-top: 10px;"><a href="/categories"class="btn btn-danger col-lg-8"><span class="fa fa-undo" aria-hidden="true"></span> Back</a></h1>
       </div>
-    </div>
-  </div>
 </div>
 {% endblock content %}

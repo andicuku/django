@@ -23,11 +23,14 @@ body{
     margin: 0;
 }
 .navbarMine{
-    width: 100%;
-    height: 70px;
-    background-color:#1c1d24;
-    position:sticky;
-    top: 0;
+  overflow:hidden;
+  text-align:center;
+  background-color: rgb(0, 0, 0);
+  position: sticky; /* Set the navbar to fixed position */
+  z-index: 1;
+  top: 0; /* Position the navbar at the top of the page */
+  width: 100%; /* Full width */
+  height: 70px;
 }
 
 .navWrapper{
@@ -92,20 +95,44 @@ li.active{
     display: flex;
 }
 .container-custom{
-    width: 65%;
+    width: 70%;
     margin: auto;
+    position: sticky;
+    z-index: 1;
+    bottom: 0;
+    background-color: white;
+}
+.redbull{
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 1px 0px 18px 1px rgba(169,169,169,0.76);
+-webkit-box-shadow: 1px 0px 18px 1px rgba(169,169,169,0.76);
+-moz-box-shadow: 1px 0px 18px 1px rgba(169,169,169,0.76);
+}
+.rrugaura{
+  padding: 20px;
+  overflow:hidden;
+  text-align:center;
+  background-color: rgb(255, 255, 255);
+  position: sticky; /* Set the navbar to fixed position */
+  z-index: 1;
+  top: 70px; /* Position the navbar at the top of the page */
+  width: 100%; /* Full width */
+  height: 90px;
 }
 </style>
     <script src="{% static 'js/jquery.min.js' %}"></script>
 
 <body>
-    <div class="navbarMine">
+    <div class="navbarMine" id="navbarSupportedContent">
         <div class="navWrapper">
             <div class="navLeft">
                 <span class="logo">gitCRM</span>
             </div>
             <div class="searchbox">
                 <form action="{% url 'leads:search' %}" method="GET">
+                    {% csrf_token %}
                     <div class="input-group-append">
                     <input type="search" name="q" id="q" class="form-control col-12 mr-2" placeholder="Search the entire database here...">
                     <button type="submit" class="btn btn-outline-light">Search</button>
@@ -114,12 +141,14 @@ li.active{
             </div>
             <div class="navRight">
                 <div class="navIcons">
-                    <span class="material-icons">account_circle</span>
+                        <a href="{% url 'logout' %}">
+                            <span class="material-icons">account_circle</span> <span class="fa fa-sign-out" aria-hidden="true"></span>
+                        </a>
                 </div>
             </div>
         </div>
     </div>
-    <div class="mt-4 position-sticky top-0 d-none d-md-block color-bg-primary width-full border-bottom color-border-secondary" style="z-index:3;">
+    <div class="rrugaura width-full border-bottom color-border-secondary">
         <ul data-view-component="true" class="UnderlineNav-body list-style-none">
             {% with url_name=request.resolver_match.url_name  %}
             
@@ -207,7 +236,7 @@ li.active{
     </li>
     {% endwith %}
       </ul>
-    </div>
+ </div>
     <div class="container-fluid">
         {% block content %}
           
@@ -244,7 +273,9 @@ li.active{
       </div>
 
     <script src="{% static 'js/datatables.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="https://kit.fontawesome.com/a993be6c26.js" crossorigin="anonymous"></script>
 </body>
 </html>

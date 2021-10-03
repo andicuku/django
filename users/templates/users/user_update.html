@@ -5,25 +5,19 @@
   update {{user.username}}
 {% endblock title %}
 {% block content %}
-  <div class="container">
+<br><br>
   <div class="row justify-content-center">
-    <div class="col-lg-12 col-md-12 col-sm-12">
-      <div class="card">
-        <div class="card-body">
+    <div class="col-lg-8 col-md-8 col-sm-8">
           <h3 class="card-title">Update properties and permissions for <b class="text-info">{{user.first_name}} {{user.last_name}}</b>.</h3>
-          <div class="jumbotron">
           <form method="post" novalidate>
             {% csrf_token %}
             {{form|crispy}}
         </div>
       </div>
-        <div class="card-footer text-muted text-center">
-            <button type="submit" class="btn btn-success btn-block">Submit</button>
-       </form>
-       <h1><a href="/users"><button class="btn btn-danger btn col-md-12"><span class="fa fa-undo" aria-hidden="true"></span> Back</button></a></h1>
-       </div>
+      <div class="text-muted text-center">
+        <button type="submit" class="btn btn-primary col-lg-8"><span class="fa fa-hdd" aria-hidden="true"></span> Submit</button>
+      </form>
+      <h1 style="margin-top: 10px;"><a href="/users"class="btn btn-danger col-lg-8"><span class="fa fa-undo" aria-hidden="true"></span> Back</a></h1>
       </div>
-    </div>
-  </div>
 </div>
 {% endblock content %}

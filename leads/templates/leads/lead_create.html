@@ -4,19 +4,16 @@
 {{form.media}}
 <title>
     {% block title %}
-      update {{lead.name}}
+      create lead
     {% endblock title %}
   </title>
-<div class="container">
   <div class="well">
   <div class="row justify-content-center grid">
     <div class="col-lg-10 col-md-10 col-sm-10">
-      <div class="card">
-        <div class="card-header text-muted text-center">
-          <h3 class="card-title">Create <b class="text-info">Lead</b> </h3>
+      <div class="redbull text-muted text-center">
+          <h3 class="card-title">Create a new lead.</b> </h3>
+          </div>
         </div>
-        <div class="card-body">
-          <div class="jumbotron">
         <form action="" method="post">
           <div class="row">
           {% csrf_token %}
@@ -52,11 +49,10 @@
               {{ form.comment.label_tag }}
               {% render_field form.comment class="form-control" %}
             </div>
-          </div>
-          </div>
         </div>
-          <div class="card-footer text-muted text-center">
-            <button type="submit" class="btn btn-success btn-block"><span class="fa fa-hdd" aria-hidden="true"></span> Create</button>
+        <br>
+          <div class="text-muted text-center">
+            <button type="submit" class="btn btn-primary btn-block"><span class="fa fa-hdd" aria-hidden="true"></span> Create</button>
           </form>
           <h1 style="margin-top: 10px;"><a href="/leads"class="btn btn-danger btn-block"><span class="fa fa-undo" aria-hidden="true"></span> Back</a></h1>
           </div>
