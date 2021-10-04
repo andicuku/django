@@ -103,7 +103,7 @@ class ModifyView(staff, generic.View):
             'leads': allleads,
             'form': form
         }
-        return  render(request, "leads/lead_index.html", context)
+        return  render(request, "leads/lead_modify.html", context)
 
     def post(self, request, *args, **kwargs):
       if request.method=="POST":

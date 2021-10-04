@@ -25,7 +25,7 @@ class LeadModelForm(forms.ModelForm):
 
   
 class LeadModifyForm(forms.Form):
-  user = forms.ModelChoiceField(queryset=User.objects.none())
+  user = forms.ModelChoiceField(queryset= User.objects.none())
   category = forms.ModelChoiceField(queryset=Category.objects.none())
 
   def __init__(self, *args, **kwargs):
