@@ -84,7 +84,7 @@
             <form method="post">
                 {% csrf_token %}
                 {{form|crispy}}
-			<button type="submit" id="assign" class="btn btn-outline-success"><span class="fas fa-share-alt"></span> Assign</button>
+			<button type="submit" id="modifyall" class="btn btn-outline-success"><span class="fas fa-share-alt"></span> Assign</button>
             </form>
 		</div>
 		<div class="col-md-4">
@@ -131,16 +131,16 @@
                 $('input[type="checkbox"]', rows).prop('checked', this.checked);
             });
 
-        $("#delete_all").click(function(event){
+        $("#assign").click(function(event){
                 event.preventDefault();
-                if (confirm("Are you sure to Delete Selected?")) {
+                if (confirm("Are you sure to Modify selected?")) {
                     var id = get_Selected_id();
                     var csrf = $('input[name=csrfmiddlewaretoken').val();
                     if (id!='') {
                         /*$('#delete_leads_ids').eq(0).val(leads_ids);
                         $('#delete_multiple_form').submit();*/
                         $.ajax({
-                            url: "{%url 'leads:delete-multiple' %}",
+                            url: "{%url 'leads:modify' %}",
                             method: "POST",
                             data: {
                                 id,

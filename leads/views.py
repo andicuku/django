@@ -93,26 +93,22 @@ class LeadAdvancedSearch(FilterView):
     paginate_by = 100
     template_name = 'leads/search_index.html'
 
-class ModifyView(staff, generic.View):
 
-    def get(self, request, **kwargs):
-        allleads = Lead.objects.all()
+
+class ModifyView(sudo, generic.View):
+    def get(self, request):
+        leads = Lead.objects.all()
         form = LeadModifyForm
-
         context = {
-            'leads': allleads,
+            'leads': leads,
             'form': form
         }
         return  render(request, "leads/lead_modify.html", context)
 
-    def post(self, request, *args, **kwargs):
-      if request.method=="POST":
-        lead_ids=request.POST.getlist('id[]')
+    def post(self, request):
         form = LeadModifyForm
-        for id in lead_ids:
-         lead = Lead.objects.get(pk=id)
-         lead.user = form.user
-         lead.category = form.category
-         lead.save()
-        return redirect("/leads/modify")
-
+        if request.method=="POST":
+          lead_ids=request.POST.getlist('id[]')
+          for id in lead_ids:
+            Lead.objects.get(pk=id).update(user=form.user,category=form.category)
+          return redirect("leads:modify")

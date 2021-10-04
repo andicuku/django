@@ -25,7 +25,7 @@ body{
 .navbarMine{
   overflow:hidden;
   text-align:center;
-  background-color: rgb(0, 0, 0);
+  background-color: rgb(18, 18, 22);
   position: sticky; /* Set the navbar to fixed position */
   z-index: 1;
   top: 0; /* Position the navbar at the top of the page */
@@ -43,6 +43,7 @@ body{
 
 .logo{
     font-weight: bold;
+    padding: 10px;
     font-size: 30px;
     color:white;
     cursor: pointer;
@@ -62,15 +63,16 @@ body{
 }
 
 a{
-    font-size: 18px;
+    font-size: 14px;
     color: rgb(131, 129, 129);
     margin: 5px;
     padding: 5px;
+    text-align: center;
     cursor: pointer;
     border-radius: 10px;
 }
 a:hover{
-    background-color:#dee0e0;
+    background-color:#9c9c9c;
     text-decoration:none;
     color: black;
 }
@@ -78,34 +80,18 @@ li.active{
     border-bottom: 4px solid rgb(255, 103, 103);
 }
 .container-fluid{
-    width: 80%;
+    width: 90%;
+    font-size: 14px;
 }
 .misen{
     list-style-type:none;
-    margin: 8px;
-    padding: 8px;
-}
-.macok{
-    margin: auto;
-    background-color: white;
-    height: 24px;
-    width: 24px;
-    margin-left: 64px;
-    margin-right: 64px;
-    display: flex;
-}
-.container-custom{
-    width: 70%;
-    margin: auto;
-    position: sticky;
-    z-index: 1;
-    bottom: 0;
-    background-color: white;
+    padding: 20px;
+    font-size: 14px;
 }
 .redbull{
     margin: 20px;
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 40px;
     box-shadow: 1px 0px 18px 1px rgba(169,169,169,0.76);
 -webkit-box-shadow: 1px 0px 18px 1px rgba(169,169,169,0.76);
 -moz-box-shadow: 1px 0px 18px 1px rgba(169,169,169,0.76);
@@ -121,6 +107,17 @@ li.active{
   width: 100%; /* Full width */
   height: 90px;
 }
+.cisco{
+    list-style-type: none;
+    padding: 10px;
+    font-size: 14px;
+    margin-right: 0;
+    color: blue;
+}
+.database{
+    background-color: white;
+    border-radius: 25px;
+}
 </style>
     <script src="{% static 'js/jquery.min.js' %}"></script>
 
@@ -128,7 +125,9 @@ li.active{
     <div class="navbarMine" id="navbarSupportedContent">
         <div class="navWrapper">
             <div class="navLeft">
-                <span class="logo">gitCRM</span>
+                <span class="logo">GitCrm <svg height="32" aria-hidden="true" viewBox="0 0 16 16" version="1.1" width="32" data-view-component="true" class="database octicon octicon-mark-github v-align-middle">
+                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+                </svg></span>
             </div>
             <div class="searchbox">
                 <form action="{% url 'leads:search' %}" method="GET">
@@ -255,27 +254,29 @@ li.active{
     </div>
     <br><br>
 
-    <div class="footer container-custom width-full p-responsive" role="contentinfo">
-        <div class="position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between pt-6 pb-2 mt-6 f6 color-text-secondary border-top color-border-secondary ">
-          <ul class="misen list-style-none d-flex flex-wrap flex-lg-justify-between mb-2 mb-lg-0">
-            <li class="mr-3 mr-lg-0">© 2022 GitHub, Inc.</li>
-              <li class="mr-3 mr-lg-0"><a href="#" data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to terms&quot;,&quot;label&quot;:&quot;text:terms&quot;,&quot;originating_url&quot;:&quot;https://github.com/misen19/djangocrm&quot;,&quot;user_id&quot;:63194411}}" data-hydro-click-hmac="83a4eb5f0e76b4517a7cf4f0a0656227bd7fe25b3d3700047ea40851b70a12a3">Terms</a></li>
-              <li class="mr-3 mr-lg-0"><a data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to security&quot;,&quot;label&quot;:&quot;text:security&quot;,&quot;originating_url&quot;:&quot;https://github.com/misen19/djangocrm&quot;,&quot;user_id&quot;:63194411}}" data-hydro-click-hmac="67988823373f1184d12c5873a4ab2c68f119518bfa538157ec5a0699194066c3" href="#">Security</a></li>
-              <li class="mr-3 mr-lg-0"><a href="#" data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to status&quot;,&quot;label&quot;:&quot;text:status&quot;,&quot;originating_url&quot;:&quot;https://github.com/misen19/djangocrm&quot;,&quot;user_id&quot;:63194411}}" data-hydro-click-hmac="8aede00b2d94b4320030f9e456f0bb70457ba2fb9ad3229bd3787b7430a2819f">Status</a></li>
+    <div class="footer container-xl width-full p-responsive" role="contentinfo">
+        <div class="position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between mx-auto pt-6 pb-2 mt-6 f6 color-text-secondary border-top color-border-secondary ">
+          <ul class="cisco list-style-none d-flex flex-wrap col-12 col-lg-5 flex-justify-center flex-lg-justify-between mb-2 ml-6 mb-lg-0">
+            <li class="">&copy; 2021 GitCrm, Inc.</li>
+              <li class=""><a href="#" data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to terms&quot;,&quot;label&quot;:&quot;text:terms&quot;,&quot;originating_url&quot;:&quot;https://github.com/misen19&quot;,&quot;user_id&quot;:63194411}}" data-hydro-click-hmac="23772e3d2ce23266f066974e6c8a50f4f1131d0da061b41c46e49cacd7f77c3d">Terms</a></li>
+              <li class=""><a href="#" data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to privacy&quot;,&quot;label&quot;:&quot;text:privacy&quot;,&quot;originating_url&quot;:&quot;https://github.com/misen19&quot;,&quot;user_id&quot;:63194411}}" data-hydro-click-hmac="cc238adafef3877540b828a4b1910739955b57da89cb0edc62fa59dc20a17ef0">Privacy</a></li>
+              <li class=""><a data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to security&quot;,&quot;label&quot;:&quot;text:security&quot;,&quot;originating_url&quot;:&quot;https://github.com/misen19&quot;,&quot;user_id&quot;:63194411}}" data-hydro-click-hmac="f2a0b05498566ab39da3d5a25116214068439d98b21447020202a540322b4a3f" href="#">Security</a></li>
+              <li class=""><a href="#" data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to status&quot;,&quot;label&quot;:&quot;text:status&quot;,&quot;originating_url&quot;:&quot;https://github.com/misen19&quot;,&quot;user_id&quot;:63194411}}" data-hydro-click-hmac="0c508c5f50a37138d77130c114ddb17a443dea275abbca0d2adff744dfc19389">Status</a></li>
               <li><a data-ga-click="Footer, go to help, text:Docs" href="#">Docs</a></li>
           </ul>
       
-          <a aria-label="Homepage" title="GitHub/misen19" class="macok footer-octicon d-none d-lg-block mx-lg-4" href="https://github.com/misen19">
+          <a aria-label="Homepage" title="GitCrm" class="footer-octicon d-none d-lg-block mx-lg-4" href="https://github.com/misen19/django">
             <svg aria-hidden="true" height="24" viewBox="0 0 16 16" version="1.1" width="24" data-view-component="true" class="octicon octicon-mark-github">
           <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
       </svg>
       </a>
-          <ul class="misen list-style-none d-flex flex-wrap flex-lg-justify-between mb-2 mb-lg-0">
-            <li><a href="#">Contact Email</a></li>
-            <li><a href="#">Pricing</a></li>
-            <li><a href="#">Training</a></li>
-            <li><a href="#">API</a></li>
-            <li><a href="#">Made in Django. Ridiculously fast, Reassuringly secure and Exceedingly scalable.</a></li>
+          <ul class="cisco list-style-none d-flex flex-wrap col-12 col-lg-5 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
+              <li class=""><a href="#" data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to contact&quot;,&quot;label&quot;:&quot;text:contact&quot;,&quot;originating_url&quot;:&quot;https://github.com/misen19&quot;,&quot;user_id&quot;:63194411}}" data-hydro-click-hmac="928637f292613e2ac6df2222d4263f5abfb1b532902e12d0a71e5f7bbc35e700">Contact GitCrm</a></li>
+              <li class=""><a href="#" data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&ququot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to Pricing&quot;,&quot;label&quot;:&quot;text:Pricing&quot;,&quot;originating_url&quot;:&quot;https://github.com/misen19&quot;,&quot;user_id&quot;:63194411}}" data-hydro-click-hmac="fdb0df1be5fc70606936c88afbc5658691216b404d1c9502426eee042af5bf1f">Pricing</a></li>
+            <li class=""><a href="#" data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to api&quot;,&quot;label&quot;:&quot;text:api&quot;,&quot;originating_url&quot;:&quot;https://github.com/misen19&quot;,&quot;user_id&quot;:63194411}}" data-hydro-click-hmac="c88b578bc4158fc0d22238496904d483ae2005530651fb6c8096f47a14ea00ab">API</a></li>
+            <li class=""><a href="#" data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to training&quot;,&quot;label&quot;:&quot;text:training&quot;,&quot;originating_url&quot;:&quot;https://github.com/misen19&quot;,&quot;user_id&quot;:63194411}}" data-hydro-click-hmac="ad330462cce1d8ab2c6ab89f4a8201723d5e769409fbdab1c5b9bbfb59aa78ba">Training</a></li>
+              <li class=""><a href="#" data-hydro-click="{&quot;event_type&quot;:&quot;analytics.event&quot;,&quot;payload&quot;:{&quot;category&quot;:&quot;Footer&quot;,&quot;action&quot;:&quot;go to blog&quot;,&quot;label&quot;:&quot;text:blog&quot;,&quot;originating_url&quot;:&quot;https://github.com/misen19&quot;,&quot;user_id&quot;:63194411}}" data-hydro-click-hmac="845808f7e64dab3fd5261d0488a4527f80265ee25ecf65f07a57d51beb2635a6">Blog</a></li>
+              <li><a data-ga-click="Footer, go to about, text:about" href="#">About.</a></li>
           </ul>
         </div>
         <div class="d-flex flex-justify-center pb-6">
