@@ -12,7 +12,6 @@ class Lead(models.Model):
     phone = models.CharField(max_length=30, unique=True)
     email = models.CharField(max_length=30)
     source = models.ForeignKey(Source, on_delete=models.CASCADE)
-    comment = models.TextField(max_length=1500, blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default='NEW')
     task = models.DateTimeField(blank=True, null=True)
     user = models.ForeignKey(User, default='misen', on_delete=models.CASCADE)
@@ -23,3 +22,14 @@ class Lead(models.Model):
     def __str__(self):
         return self.name
 
+
+
+
+class Comment(models.Model):
+    lead = models.ForeignKey(Lead, related_name='comments', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, editable=False, on_delete=models.CASCADE)
+    body = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return '%s - %s' % (self.lead, self.user)

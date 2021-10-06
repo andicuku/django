@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load tailwind_filters %}
+{% block content %}
+{{form.media}}
+<title>
+    {% block title %}
+    {% endblock title %}
+  </title>
+  <div class="well">
+  <div class="row justify-content-center grid">
+      <div class="redbull text-muted text-center">
+          <h3 class="card-title">Create a new comment.</b> </h3>
+          </div>
+        </div>
+        <form action="" method="post">
+          {% csrf_token %}
+          {{form|crispy}}
+        </div>
+        <br>
+          <div class="text-muted text-center">
+            <button type="submit" class="btn btn-primary btn-block"><span class="fa fa-hdd" aria-hidden="true"></span> Create</button>
+          </form>
+          <h1 style="margin-top: 10px;"><a href="/leads"class="btn btn-danger btn-block"><span class="fa fa-undo" aria-hidden="true"></span> Back</a></h1>
+          </div>
+    </div>
+</div>
+</div>
+{% endblock content %}
+
+

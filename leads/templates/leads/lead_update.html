@@ -46,11 +46,19 @@
               {% render_field form.user class="form-control" %}
             </div>
             <div class="form-group col-sm-4 col-md-6">
-              {{ form.comment.label_tag }}
-              {% render_field form.comment class="form-control" %}
-            </div>
-        </div>
-        <br>
+              <h5>Comments:</h5>
+              <div id="comments-list" style="height:140px;width:100%;border-radius:20px;overflow:auto;padding:10px;background-color:white;box-shadow: 1px 0px 18px 1px rgba(169,169,169,0.76);-webkit-box-shadow: 1px 0px 18px 1px rgba(169,169,169,0.76);-moz-box-shadow: 1px 0px 18px 1px rgba(169,169,169,0.76);">
+                {% if not lead.comments.all %}
+                <h5>No comments yet...</h5>
+                {% else %}
+                {% for comment in lead.comments.all %}
+                <span style="padding:5px;margin:10px;background-color:#ebeced;border-radius:10px;"><b>{{comment.timestamp}}</b> - <b style="color:#029fad;">{{comment.user}}</b> : </span> {{comment.body}}<br/><br/>
+                {% endfor %}
+                {% endif %}
+                </div>
+                <br>
+             </div>
+          </div>
           <div class="text-muted text-center">
             <button type="submit" class="btn btn-success btn-block"><span class="fa fa-hdd" aria-hidden="true"></span> Update</button>
           </form>
@@ -61,6 +69,14 @@
   </div>
 </div>
 </div>
+<script>
+  $(document).ready(function() {
+
+      var d = $('#comments-list');
+      d.scrollTop(d.prop("scrollHeight"));
+  
+      });
+  </script>
 {% endblock content %}
 
 

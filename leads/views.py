@@ -1,12 +1,13 @@
-from django.shortcuts import render, reverse, redirect
+from django.shortcuts import render, reverse, redirect, get_object_or_404
 from django.views import generic
-from .forms import LeadModelForm, LeadModifyForm
-from .models import Lead, User
+from .forms import LeadModelForm, LeadModifyForm, CommentForm
+from .models import Comment, Lead, User
 from django.db.models import Q
 from .filters import LeadFilter
 from django_filters.views import FilterView
 from users.views import staff, sudo
 from django.core.exceptions import PermissionDenied
+from django.http import Http404
 
 
 
@@ -25,6 +26,10 @@ class LeadUpdateView(generic.UpdateView):
    model = Lead
    template_name = "leads/lead_update.html"
    form_class = LeadModelForm
+
+   def get_context_data(self, **kwargs):
+
+       return super().get_context_data(**kwargs)
     
    def get_success_url(self):
      return reverse("leads:lead-index")
@@ -77,16 +82,6 @@ class SearchResultsView(generic.ListView):
        return q_list
 
 
-# def search(request):
-#     lead_list = Lead.objects.all()
-#     lead_filter = LeadFilter(request.GET, queryset=lead_list)
-#     return render(request, 'leads/search_index.html', {'filter': lead_filter})
-# 
-# def status(request):
-#     lead_list = Lead.objects.all()
-#     lead_filter = LeadFilter(request.GET, queryset=lead_list)
-#     return render(request, 'leads/status_index.html', {'filter': lead_filter})
-
 
 class LeadAdvancedSearch(FilterView):
     filterset_class = LeadFilter
@@ -106,9 +101,32 @@ class ModifyView(sudo, generic.View):
         return  render(request, "leads/lead_modify.html", context)
 
     def post(self, request):
-        form = LeadModifyForm
         if request.method=="POST":
+          form = LeadModifyForm(request.POST)
           lead_ids=request.POST.getlist('id[]')
           for id in lead_ids:
-            Lead.objects.get(pk=id).update(user=form.user,category=form.category)
+            lead = Lead.objects.get(pk=id)
+            if form.is_valid(self, form):
+                user = form.cleaned_data['user']
+                category = form.cleaned_data['category']
+                lead.user = user
+                lead.category = category
+                lead.save()
           return redirect("leads:modify")
+
+
+class CommentView(generic.CreateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = 'leads/lead_comment.html'
+
+    def form_valid(self, form):
+        form.instance.lead_id = self.kwargs['pk']
+        form.instance.user_id =self.request.user.id
+        return super().form_valid(form)
+
+    def get_success_url(self):
+     return reverse("leads:lead-index")    
+
+
+
