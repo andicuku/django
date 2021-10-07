@@ -16,6 +16,7 @@ class LeadModelForm(forms.ModelForm):
         'category',
         'task',
         'user',
+        'deposit'
     )
     widgets = {
         'task': DateTimePickerInput(attrs={'placeholder':'Select Date/Time.'}),

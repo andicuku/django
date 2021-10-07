@@ -2,6 +2,7 @@ from django.db import models
 from categories.models import Category
 from sources.models import Source
 from users.models import User
+from django.shortcuts import reverse
 
 # Create your models here.
 
@@ -15,6 +16,7 @@ class Lead(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default='NEW')
     task = models.DateTimeField(blank=True, null=True)
     user = models.ForeignKey(User, default='misen', on_delete=models.CASCADE)
+    deposit = models.BooleanField(default=False)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 

@@ -15,8 +15,7 @@ urlpatterns =[
     url(r'^search/$', login_required(SearchResultsView.as_view()), name='search'),
     url(r'^searching/$', login_required(LeadAdvancedSearch.as_view()), name='advanced-search'),
     url(r'^modify/$', login_required(ModifyView.as_view()), name='modify'),
-    path('<int:pk>/comment', (CommentView.as_view()), name='lead-comment')
-
+    path('<int:pk>/comment', (CommentView.as_view()), name='comment'),
 
     #path('<int:pk>/update/', LeadUpdateView.as_view(), name='lead-update'),
     #path('create/', LeadCreateView.as_view(), name='lead-create'),

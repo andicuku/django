@@ -1,4 +1,5 @@
-from django.shortcuts import render, reverse, redirect, get_object_or_404
+from typing import ContextManager
+from django.shortcuts import render, reverse, redirect
 from django.views import generic
 from .forms import LeadModelForm, LeadModifyForm, CommentForm
 from .models import Comment, Lead, User
@@ -28,11 +29,14 @@ class LeadUpdateView(generic.UpdateView):
    form_class = LeadModelForm
 
    def get_context_data(self, **kwargs):
+     context = super().get_context_data(**kwargs)
+     context['commentform'] = CommentForm()
+     return context
 
-       return super().get_context_data(**kwargs)
-    
-   def get_success_url(self):
-     return reverse("leads:lead-index")
+   def get_success_url(self, **kwargs):
+        pk = self.kwargs.get('pk')
+        lead = Lead.objects.get(id=pk)
+        return reverse("leads:lead-update", kwargs={'pk': lead.pk})
 
 
 class LeadIndexView(generic.ListView):
@@ -125,8 +129,10 @@ class CommentView(generic.CreateView):
         form.instance.user_id =self.request.user.id
         return super().form_valid(form)
 
-    def get_success_url(self):
-     return reverse("leads:lead-index")    
+    def get_success_url(self, **kwargs):
+        pk = self.kwargs.get('pk')
+        lead = Lead.objects.get(id=pk)
+        return reverse("leads:lead-update", kwargs={'pk': lead.pk})
 
 
 
