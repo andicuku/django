@@ -33,7 +33,7 @@
             {% if request.user.is_staff %}
             <td class="text-center"><input type="checkbox" name="sel" id="delete_lead" value="{{lead.id}}"></td>
             {% endif %}
-			<td class="text-center"><a href="{% url 'leads:lead-update' lead.pk %}">{{lead.name}}</a></td>
+			<td class="text-center"><a href="{% url 'leads:lead-update' lead.pk %}" target="_blank">{{lead.name}}</a></td>
 			<td class="text-center">{{lead.phone}}</td>
 			<td class="text-center">{{lead.created_at|date:'Y-m-d'}}</td>
 			<td class="text-center">{{lead.source}}</td>

@@ -41,6 +41,7 @@ class LeadUpdateView(generic.UpdateView):
 
 class LeadIndexView(generic.ListView):
     model = Lead
+    ordering = ['-updated_at']
     template_name = 'leads/lead_index.html'
     paginate_by = 100
 
