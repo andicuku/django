@@ -7,13 +7,6 @@
       create lead
     {% endblock title %}
   </title>
-  <div class="well">
-  <div class="row justify-content-center grid">
-    <div class="col-lg-10 col-md-10 col-sm-10">
-      <div class="redbull text-muted text-center">
-          <h3 class="card-title">Create a new lead.</b> </h3>
-          </div>
-        </div>
         <form action="" method="post">
           <div class="row">
           {% csrf_token %}
@@ -56,11 +49,7 @@
           </form>
           <h1 style="margin-top: 10px;"><a href="/leads"class="btn btn-danger btn-block"><span class="fa fa-undo" aria-hidden="true"></span> Back</a></h1>
           </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
+        </div>
 {% endblock content %}
 
 

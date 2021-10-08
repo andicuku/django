@@ -124,7 +124,7 @@ LOGOUT_REDIRECT_URL = 'login'
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Europe/Tirane'
+TIME_ZONE = 'Europe/London'
 
 USE_I18N = True
 

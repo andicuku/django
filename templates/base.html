@@ -1,4 +1,6 @@
 {% load static %}
+{% load tz %}
+{% get_current_timezone as TIME_ZONE %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,12 +13,12 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/datatables.min.css' %}">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.ico' %}"/>
 </head>
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
-
+    @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700&display=swap');
 *{
-    font-family: 'Open Sans', sans-serif;
+    font-family: sans-serif;
 }
 
 body{
@@ -117,10 +119,6 @@ li.active{
 .database{
     background-color: white;
     border-radius: 25px;
-}
-.rrush{
-    width: 70%;
-    align-items: center;
 }
 </style>
     <script src="{% static 'js/jquery.min.js' %}"></script>
@@ -251,10 +249,136 @@ li.active{
     {% endwith %}
       </ul>
  </div>
+
+
+
     <div class="container-fluid">
-        {% block content %}
+        <br>
+        <div data-view-component="true" class="gutter-condensed gutter-xl flex-column flex-md-row d-flex">
+            <div data-view-component="true" class="flex-shrink-0 col-12 col-md-3 mb-4 mb-md-0">     
+                 <div class="h-card mt-md-n5" data-acv-badge-hovercards-enabled="" itemscope="" itemtype="http://schema.org/Person">
+                  <div class="js-profile-editable-replace">
+          <div class="clearfix d-flex d-md-block flex-items-center mb-4 mb-md-0">
+            <div class="position-relative d-inline-block col-2 col-md-12 mr-3 mr-md-0 flex-shrink-0" style="z-index:4;">
+
+        
+            </div>
+        
+            <div class="vcard-names-container float-left js-profile-editable-names col-12 py-3 js-sticky js-user-profile-sticky-fields" data-original-top="0px" style="position: sticky;">
+              <h1 class="vcard-names ">
+                <span class="p-name vcard-fullname d-block overflow-hidden" itemprop="name">
+                  
+                </span>
+                <span class="p-nickname vcard-username d-block" itemprop="additionalName">
+                  {{request.user.username}}
+                </span>
+              </h1>
+            </div>
+           </div>
+                
+          <div class="d-flex flex-column">
+            <div class="flex-order-1 flex-md-order-none">
+        
+              <div class="color-text-tertiary d-flex flex-items-center">
+                <svg style="width: 16px;" aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-organization">
+            <path fill-rule="evenodd" d="M1.5 14.25c0 .138.112.25.25.25H4v-1.25a.75.75 0 01.75-.75h2.5a.75.75 0 01.75.75v1.25h2.25a.25.25 0 00.25-.25V1.75a.25.25 0 00-.25-.25h-8.5a.25.25 0 00-.25.25v12.5zM1.75 16A1.75 1.75 0 010 14.25V1.75C0 .784.784 0 1.75 0h8.5C11.216 0 12 .784 12 1.75v12.5c0 .085-.006.168-.018.25h2.268a.25.25 0 00.25-.25V8.285a.25.25 0 00-.111-.208l-1.055-.703a.75.75 0 11.832-1.248l1.055.703c.487.325.779.871.779 1.456v5.965A1.75 1.75 0 0114.25 16h-3.5a.75.75 0 01-.197-.026c-.099.017-.2.026-.303.026h-3a.75.75 0 01-.75-.75V14h-1v1.25a.75.75 0 01-.75.75h-3zM3 3.75A.75.75 0 013.75 3h.5a.75.75 0 010 1.5h-.5A.75.75 0 013 3.75zM3.75 6a.75.75 0 000 1.5h.5a.75.75 0 000-1.5h-.5zM3 9.75A.75.75 0 013.75 9h.5a.75.75 0 010 1.5h-.5A.75.75 0 013 9.75zM7.75 9a.75.75 0 000 1.5h.5a.75.75 0 000-1.5h-.5zM7 6.75A.75.75 0 017.75 6h.5a.75.75 0 010 1.5h-.5A.75.75 0 017 6.75zM7.75 3a.75.75 0 000 1.5h.5a.75.75 0 000-1.5h-.5z"></path>
+        </svg>
+                <input class="ml-2 form-control flex-auto input-sm" placeholder="Company" aria-label="Company" name="user[profile_company]" value="">
+              </div>
+        
+          <div class="color-text-tertiary mt-2 d-flex flex-items-center">
+            <svg style="width: 16px;" aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-location">
+            <path fill-rule="evenodd" d="M11.536 3.464a5 5 0 010 7.072L8 14.07l-3.536-3.535a5 5 0 117.072-7.072v.001zm1.06 8.132a6.5 6.5 0 10-9.192 0l3.535 3.536a1.5 1.5 0 002.122 0l3.535-3.536zM8 9a2 2 0 100-4 2 2 0 000 4z"></path>
+        </svg>
+            <input class="ml-2 form-control flex-auto input-sm" placeholder="{{ TIME_ZONE }}" aria-label="Location" name="user[profile_location]" value="">
+          </div>
+        
+        
+          <div class="color-text-tertiary mt-2 d-flex flex-items-center">
+            <svg style="width: 16px;" aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-link">
+            <path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path>
+        </svg>
+            <input class="ml-2 form-control flex-auto input-sm" placeholder="Website" aria-label="Website" name="user[profile_blog]" value="">
+          </div>
+        
+          <div class="color-text-tertiary mt-2 d-flex flex-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 273.5 222.3" height="16" width="16"><title>Twitter</title><path d="M273.5 26.3a109.77 109.77 0 0 1-32.2 8.8 56.07 56.07 0 0 0 24.7-31 113.39 113.39 0 0 1-35.7 13.6 56.1 56.1 0 0 0-97 38.4 54 54 0 0 0 1.5 12.8A159.68 159.68 0 0 1 19.1 10.3a56.12 56.12 0 0 0 17.4 74.9 56.06 56.06 0 0 1-25.4-7v.7a56.11 56.11 0 0 0 45 55 55.65 55.65 0 0 1-14.8 2 62.39 62.39 0 0 1-10.6-1 56.24 56.24 0 0 0 52.4 39 112.87 112.87 0 0 1-69.7 24 119 119 0 0 1-13.4-.8 158.83 158.83 0 0 0 86 25.2c103.2 0 159.6-85.5 159.6-159.6 0-2.4-.1-4.9-.2-7.3a114.25 114.25 0 0 0 28.1-29.1" fill="currentColor"></path></svg>
+        
+            <input class="ml-2 form-control flex-auto input-sm" placeholder="Twitter username" aria-label="Twitter username" name="user[profile_twitter_username]" value="">
+          </div>
+        
+          <div class="my-3">
+            <div class="js-profile-editable-error color-text-danger my-3"></div>
+          </div>
+        </div>
+        
+            
+        <div class="js-profile-editable-area d-flex flex-column d-md-block">
+          <div class="p-note user-profile-bio mb-3 js-user-profile-bio f4" data-bio-text="" hidden=""></div>
+        
+            <div class="flex-order-1 flex-md-order-none mt-2 mt-md-0">
+              <div class="mb-3">
+                <a class="Link--secondary no-underline no-wrap" href="https://github.com/misen19?tab=followers">
+                  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-people">
+            <path fill-rule="evenodd" d="M5.5 3.5a2 2 0 100 4 2 2 0 000-4zM2 5.5a3.5 3.5 0 115.898 2.549 5.507 5.507 0 013.034 4.084.75.75 0 11-1.482.235 4.001 4.001 0 00-7.9 0 .75.75 0 01-1.482-.236A5.507 5.507 0 013.102 8.05 3.49 3.49 0 012 5.5zM11 4a.75.75 0 100 1.5 1.5 1.5 0 01.666 2.844.75.75 0 00-.416.672v.352a.75.75 0 00.574.73c1.2.289 2.162 1.2 2.522 2.372a.75.75 0 101.434-.44 5.01 5.01 0 00-2.56-3.012A3 3 0 0011 4z"></path>
+        </svg>
+                  <span class="text-bold color-text-primary">1</span>
+                  follower
+        </a>        · <a class="Link--secondary no-underline no-wrap" href="https://github.com/misen19?tab=following">
+                  <span class="text-bold color-text-primary">1</span>
+                  following
+        </a>        · <a class="Link--secondary no-underline no-wrap" href="https://github.com/misen19?tab=stars">
+                  <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-star">
+            <path fill-rule="evenodd" d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25zm0 2.445L6.615 5.5a.75.75 0 01-.564.41l-3.097.45 2.24 2.184a.75.75 0 01.216.664l-.528 3.084 2.769-1.456a.75.75 0 01.698 0l2.77 1.456-.53-3.084a.75.75 0 01.216-.664l2.24-2.183-3.096-.45a.75.75 0 01-.564-.41L8 2.694v.001z"></path>
+        </svg>
+                  <span class="text-bold color-text-primary">0</span>
+        </a>      </div>
+            </div>
+        </div>
+        
+          </div>
+        
+        </div>
+        
+              </div>
+        </div>
+        
+        
+            
           
-        {% endblock content %}
+        
+        <div class="position-relative">
+        
+          
+        
+        
+            <h2 class="f4 text-normal mb-2">
+                {{request.user.first_name}} {{request.user.last_name}}'s workspace.
+            </h2>
+        
+            <div class="border">
+              <div class="js-calendar-graph d-flex flex-column overflow-hidden height-full width-full">
+                <div class="width-full f6 px-0 px-md-5 py-1">
+                    <br>
+                    {% block content %}
+                      
+                    {% endblock content %}
+                </div>
+              </div>
+        
+            </div>
+        </div>
+        
+        
+        
+    
+              </div>
+              </div>
+              </div>
+              </div>
+        </div>
+        
+        </div>
     </div>
     <br><br>
 
