@@ -41,7 +41,6 @@ class LeadUpdateView(generic.UpdateView):
 
 class LeadIndexView(generic.ListView):
     model = Lead
-    ordering = ['-updated_at']
     template_name = 'leads/lead_index.html'
     paginate_by = 100
 
@@ -111,7 +110,7 @@ class ModifyView(sudo, generic.View):
           lead_ids=request.POST.getlist('id[]')
           for id in lead_ids:
             lead = Lead.objects.get(pk=id)
-            if form.is_valid(self, form):
+            if form.is_valid():
                 user = form.cleaned_data['user']
                 category = form.cleaned_data['category']
                 lead.user = user
